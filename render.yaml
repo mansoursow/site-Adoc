@@ -1,0 +1,19 @@
+# Render.com - Déploiement gratuit (Blueprint)
+# À utiliser après avoir poussé le code sur GitHub/GitLab.
+# Dashboard Render → New → Blueprint → connecter le repo → ce fichier sera détecté.
+
+services:
+  - type: web
+    name: site-adoc
+    runtime: node
+    plan: free
+
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: OPENAI_API_KEY
+        sync: false
+    # Ouvrez l'onglet Environment du service et ajoutez OPENAI_API_KEY (valeur secrète) à la main.
