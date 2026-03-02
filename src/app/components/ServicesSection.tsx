@@ -1,6 +1,5 @@
 import { motion } from 'motion/react';
-
-// ✅ IMPORT DES ICÔNES (IMAGES)
+import { useTranslation } from 'react-i18next';
 import auditIcon from '@/assets/icone/audit.png';
 import expertiseIcon from '@/assets/icone/expertise.png';
 import conseilIcon from '@/assets/icone/conseil.png';
@@ -41,11 +40,14 @@ const services = [
   },
 ];
 
+const serviceKeys = ['audit', 'expertise', 'conseil', 'restructuration', 'public', 'digital'] as const;
+const serviceIcons = [auditIcon, expertiseIcon, conseilIcon, restructurationIcon, secteurPublicIcon, systemeInfoIcon];
+
 export function ServicesSection() {
+  const { t } = useTranslation();
   return (
     <section id="services" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
-        {/* ===== TITRE ===== */}
+      <div className="container mx-auto px-4 sm:px-6 max-w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -53,19 +55,15 @@ export function ServicesSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl mb-4 text-[#0A2F73]">
-            Nos Services
-          </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Des expertises complémentaires au service de votre performance
-          </p>
+          <h2 className="text-3xl md:text-5xl mb-4 text-[#0A2F73]">{t('services.title')}</h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">{t('services.subtitle')}</p>
         </motion.div>
 
         {/* ===== GRID SERVICES ===== */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
+          {serviceKeys.map((key, index) => (
             <motion.div
-              key={service.title}
+              key={key}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -90,19 +88,15 @@ export function ServicesSection() {
                 "
               >
                 <img
-                  src={service.icon}
-                  alt={service.title}
+                  src={serviceIcons[index]}
+                  alt={t(`services.${key}.title`)}
                   className="w-14 h-14 object-contain"
                 />
               </div>
 
               {/* ===== TEXTE ===== */}
-              <h3 className="text-xl font-bold mb-3 text-[#0A2F73]">
-                {service.title}
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                {service.description}
-              </p>
+              <h3 className="text-xl font-bold mb-3 text-[#0A2F73]">{t(`services.${key}.title`)}</h3>
+              <p className="text-gray-600 leading-relaxed">{t(`services.${key}.desc`)}</p>
             </motion.div>
           ))}
         </div>

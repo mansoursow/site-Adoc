@@ -1,7 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import { motion } from 'motion/react';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
 export function ContactSection() {
+  const { t } = useTranslation();
   return (
     <section id="contact" className="py-20 bg-[#0A2F73] text-white">
       <div className="container mx-auto px-4">
@@ -13,10 +15,10 @@ export function ContactSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl mb-4">
-            Contactez-nous
+            {t('contact.title')}
           </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Nous sommes à votre écoute pour répondre à toutes vos questions
+            {t('contact.subtitle')}
           </p>
         </motion.div>
 
@@ -27,15 +29,15 @@ export function ContactSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="text-2xl mb-8">Informations de Contact</h3>
+            <h3 className="text-2xl mb-8">{t('contact.contactInfo')}</h3>
             <div className="space-y-6">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-[#3F5F99] rounded-lg flex items-center justify-center flex-shrink-0">
                   <MapPin size={24} />
                 </div>
                 <div>
-                  <h4 className="mb-1">Adresse</h4>
-                  <p className="text-gray-300">Allées Therno Seydou Nourou TALL<br />Villa n° 4267 Point E, Dakar 16600, Sénégal</p>
+                  <h4 className="mb-1">{t('contact.address')}</h4>
+                  <p className="text-gray-300">{t('contact.addressValue')}</p>
                 </div>
               </div>
               
@@ -44,7 +46,7 @@ export function ContactSection() {
                   <Phone size={24} />
                 </div>
                 <div>
-                  <h4 className="mb-1">Téléphone</h4>
+                  <h4 className="mb-1">{t('contact.phone')}</h4>
                   <p className="text-gray-300">+221 33 859 09 49</p>
                 </div>
               </div>
@@ -54,7 +56,7 @@ export function ContactSection() {
                   <Mail size={24} />
                 </div>
                 <div>
-                  <h4 className="mb-1">Email</h4>
+                  <h4 className="mb-1">{t('contact.email')}</h4>
                   <p className="text-gray-300">contact@adoc-audit.fr</p>
                 </div>
               </div>
@@ -64,8 +66,8 @@ export function ContactSection() {
                   <Clock size={24} />
                 </div>
                 <div>
-                  <h4 className="mb-1">Horaires</h4>
-                  <p className="text-gray-300">Lundi - Vendredi : 8h30 - 18h00</p>
+                  <h4 className="mb-1">{t('contact.hours')}</h4>
+                  <p className="text-gray-300">{t('contact.hoursValue')}</p>
                 </div>
               </div>
             </div>
@@ -79,42 +81,42 @@ export function ContactSection() {
             className="space-y-6"
           >
             <div>
-              <label htmlFor="name" className="block mb-2">Nom complet</label>
+              <label htmlFor="name" className="block mb-2">{t('contact.fullName')}</label>
               <input
                 type="text"
                 id="name"
                 className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 focus:border-[#3F5F99] focus:outline-none focus:ring-2 focus:ring-[#3F5F99]/50 transition-all"
-                placeholder="Votre nom"
+                placeholder={t('contact.fullNamePlaceholder')}
               />
             </div>
             
             <div>
-              <label htmlFor="email" className="block mb-2">Email</label>
+              <label htmlFor="email" className="block mb-2">{t('contact.email')}</label>
               <input
                 type="email"
                 id="email"
                 className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 focus:border-[#3F5F99] focus:outline-none focus:ring-2 focus:ring-[#3F5F99]/50 transition-all"
-                placeholder="votre.email@exemple.fr"
+                placeholder={t('contact.emailPlaceholder')}
               />
             </div>
             
             <div>
-              <label htmlFor="subject" className="block mb-2">Sujet</label>
+              <label htmlFor="subject" className="block mb-2">{t('contact.subjectLabel')}</label>
               <input
                 type="text"
                 id="subject"
                 className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 focus:border-[#3F5F99] focus:outline-none focus:ring-2 focus:ring-[#3F5F99]/50 transition-all"
-                placeholder="Objet de votre demande"
+                placeholder={t('contact.subjectPlaceholder')}
               />
             </div>
             
             <div>
-              <label htmlFor="message" className="block mb-2">Message</label>
+              <label htmlFor="message" className="block mb-2">{t('contact.messageLabel')}</label>
               <textarea
                 id="message"
                 rows={5}
                 className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 focus:border-[#3F5F99] focus:outline-none focus:ring-2 focus:ring-[#3F5F99]/50 transition-all resize-none"
-                placeholder="Votre message"
+                placeholder={t('contact.messagePlaceholder')}
               ></textarea>
             </div>
             
@@ -124,7 +126,7 @@ export function ContactSection() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              Envoyer le message
+              {t('contact.send')}
             </motion.button>
           </motion.form>
         </div>

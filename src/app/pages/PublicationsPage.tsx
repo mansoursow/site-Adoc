@@ -2,14 +2,18 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Calculator, X, Clock, TrendingUp, Info, 
-  MessageSquare, Coins, Send 
+  Coins, BarChart3, Percent, Activity 
 } from 'lucide-react';
-import { useChat } from '@ai-sdk/react'; 
 import { SalarySimulator } from '@/app/components/SalarySimulator';
 import { TaxCalculator } from '@/app/components/TaxCalculator';
+import { AmortissementSimulator } from '@/app/components/AmortissementSimulator';
+import { TEGTAEGSimulator } from '@/app/components/TEGTAEGSimulator';
+import { CreditSimulator } from '@/app/components/CreditSimulator';
+import { RatioSimulator } from '@/app/components/RatioSimulator';
 
 import image7 from '@/assets/gallery-cabinet/image7.jpg';
 
@@ -46,12 +50,14 @@ function useCountdown(target?: Date | null) {
 }
 
 function FiscalCalendar({ months }: { months: any[] }) {
+  const { t } = useTranslation();
   const now = new Date();
   const year = now.getFullYear();
   const [selectedMonth, setSelectedMonth] = useState<number>(now.getMonth());
   const [activeDay, setActiveDay] = useState<number | null>(null);
 
   const month = months.find((m) => m.monthIndex === selectedMonth) ?? months[0];
+  const weekDays = t('publications.weekDays', { returnObjects: true }) as string[];
   const monthGrid = useMemo(() => buildMonthGrid(year, month.monthIndex), [year, month.monthIndex]);
   const highlightDays = useMemo(() => new Set(month.items.map((x: any) => x.day)), [month.items]);
 
@@ -79,8 +85,8 @@ function FiscalCalendar({ months }: { months: any[] }) {
   return (
     <div id="fiscal" className="mt-10 scroll-mt-24">
       <div className="mb-8">
-        <div className="text-sm font-semibold tracking-wide uppercase opacity-60 text-[#0A2F73]">Calendrier Officiel</div>
-        <h2 className="mt-2 text-2xl md:text-4xl font-black text-[#0A2F73]">Échéances Fiscales & Sociales</h2>
+        <div className="text-sm font-semibold tracking-wide uppercase opacity-60 text-[#0A2F73]">{t('publications.fiscalCalendar')}</div>
+        <h2 className="mt-2 text-2xl md:text-4xl font-black text-[#0A2F73]">{t('publications.fiscalDeadlines')}</h2>
       </div>
 
       <div className="flex flex-wrap gap-2 mb-8">
@@ -103,7 +109,7 @@ function FiscalCalendar({ months }: { months: any[] }) {
             <div className="text-2xl font-bold uppercase tracking-widest mt-2 text-[#E64501]">{month.name}</div>
             <div className="mt-8 rounded-3xl bg-white border p-6 shadow-sm">
               <div className="grid grid-cols-7 gap-2 text-[11px] font-black text-center opacity-30 mb-4">
-                {['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'].map(w => <div key={w}>{w}</div>)}
+                {weekDays.map(w => <div key={w}>{w}</div>)}
               </div>
               <div className="grid grid-cols-7 gap-2">
                 {monthGrid.flat().map((c, idx) => {
@@ -128,7 +134,7 @@ function FiscalCalendar({ months }: { months: any[] }) {
             </div>
           </div>
           <div className="mt-6 flex items-center gap-2 text-[10px] font-bold text-[#0A2F73]/50 bg-white/50 p-3 rounded-xl border border-dashed">
-            <Info size={14} /> CLIQUER SUR UN JOUR ENCERCLÉ POUR LES DÉTAILS
+            <Info size={14} /> {t('publications.clickDayForDetails').toUpperCase()}
           </div>
         </div>
 
@@ -139,7 +145,7 @@ function FiscalCalendar({ months }: { months: any[] }) {
           </div>
 
           <div className="relative z-10 p-8 border-b border-white/10 text-white flex justify-between items-center bg-white/5 backdrop-blur-md">
-            <span className="font-black text-xl tracking-tight">Détails de l'échéance</span>
+            <span className="font-black text-xl tracking-tight">{t('publications.deadlineDetails')}</span>
             {activeDay && <span className="bg-[#E64501] text-white px-4 py-1 rounded-full text-xs font-bold shadow-lg">{activeDay} {month.name}</span>}
           </div>
           
@@ -162,7 +168,7 @@ function FiscalCalendar({ months }: { months: any[] }) {
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-white/30 text-center px-10">
                 <Clock size={64} className="mb-6 opacity-10" />
-                <p className="font-bold text-lg">Sélectionnez une date pour consulter les obligations légales.</p>
+                <p className="font-bold text-lg">{t('publications.selectDate')}</p>
               </div>
             )}
           </div>
@@ -172,44 +178,23 @@ function FiscalCalendar({ months }: { months: any[] }) {
   );
 }
 
-/** Extrait le texte d'un message (format UIMessage avec parts). */
-function getMessageText(m: { parts?: Array<{ type: string; text?: string }>; content?: string }) {
-  if (typeof m.content === 'string') return m.content;
-  if (!Array.isArray(m.parts)) return '';
-  return m.parts
-    .filter((p): p is { type: string; text: string } => p.type === 'text' && typeof p.text === 'string')
-    .map((p) => p.text)
-    .join('');
-}
-
 // ===================== PAGE PRINCIPALE =====================
 export function PublicationsPage() {
-  const [activeTool, setActiveTool] = useState<'salary' | 'tax' | 'chatbot' | null>(null);
+  const { t } = useTranslation();
+  const [activeTool, setActiveTool] = useState<'salary' | 'tax' | 'amortissement' | 'tegtaeg' | 'credit' | 'ratios' | null>(null);
   const [searchParams] = useSearchParams();
   const location = useLocation();
-
-  const chat = useChat({
-    api: '/api/chat',
-  });
-  const [inputValue, setInputValue] = useState('');
-
-  const messages = chat.messages || [];
-  const isLoading = chat.status === 'streaming' || chat.status === 'submitted';
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const text = inputValue.trim();
-    if (!text || isLoading) return;
-    setInputValue('');
-    chat.sendMessage({ text });
-  };
 
   useEffect(() => {
     const tool = searchParams.get('tool');
     const hash = location.hash.replace('#', '');
     if (tool === 'paie' || hash === 'paie') setActiveTool('salary');
     if (tool === 'impot' || hash === 'impot') setActiveTool('tax');
-    if (hash === 'chatbot') setActiveTool('chatbot');
-    if (hash && !['chatbot', 'paie', 'impot'].includes(hash)) {
+    if (tool === 'amortissement' || hash === 'amortissement') setActiveTool('amortissement');
+    if (tool === 'tegtaeg' || hash === 'tegtaeg') setActiveTool('tegtaeg');
+    if (tool === 'credit' || hash === 'credit') setActiveTool('credit');
+    if (tool === 'ratios' || hash === 'ratios') setActiveTool('ratios');
+    if (hash && !['paie', 'impot'].includes(hash)) {
       const el = document.getElementById(hash);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
@@ -242,7 +227,7 @@ export function PublicationsPage() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-6">
           <motion.h1 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="text-4xl md:text-6xl font-black text-[#0A2F73] tracking-tighter mb-4">
-            Publications <span className="text-[#E64501]">&</span> Outils
+            {t('publications.title')} <span className="text-[#E64501]">&</span> {t('publications.andTools')}
           </motion.h1>
           <FiscalCalendar months={FISCAL_MONTHS} />
 
@@ -250,17 +235,32 @@ export function PublicationsPage() {
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <motion.div whileHover={{ y: -8 }} onClick={() => setActiveTool('salary')} className="rounded-[2rem] p-8 bg-[#F8FAFC] border-2 border-dashed border-[#3F5F99]/20 cursor-pointer group">
                   <Calculator size={32} className="text-[#0A2F73] mb-6" />
-                  <div className="font-black text-[#0A2F73] text-xl">Simulateur de Salaire</div>
+                  <div className="font-black text-[#0A2F73] text-xl">{t('publications.salarySimulator')}</div>
                 </motion.div>
 
                 <motion.div whileHover={{ y: -8 }} onClick={() => setActiveTool('tax')} className="rounded-[2rem] p-8 bg-[#FFF7F5] border-2 border-dashed border-[#E64501]/20 cursor-pointer group">
                   <TrendingUp size={32} className="text-[#E64501] mb-6" />
-                  <div className="font-black text-[#0A2F73] text-xl">Calculateur d'Impôts</div>
+                  <div className="font-black text-[#0A2F73] text-xl">{t('publications.taxCalculator')}</div>
                 </motion.div>
 
-                <motion.div whileHover={{ y: -8 }} onClick={() => setActiveTool('chatbot')} className="rounded-[2rem] p-8 bg-[#F0F4FF] border border-[#0A2F73]/10 cursor-pointer group relative overflow-hidden">
-                  <MessageSquare size={32} className="text-[#0A2F73] mb-6" />
-                  <div className="font-black text-[#0A2F73] text-xl">Assistant IA ADOC</div>
+                <motion.div whileHover={{ y: -8 }} onClick={() => setActiveTool('amortissement')} className="rounded-[2rem] p-8 bg-[#F0F9FF] border-2 border-dashed border-[#3F5F99]/30 cursor-pointer group">
+                  <BarChart3 size={32} className="text-[#0A2F73] mb-6" />
+                  <div className="font-black text-[#0A2F73] text-xl">{t('publications.amortissementSimulator')}</div>
+                </motion.div>
+
+                <motion.div whileHover={{ y: -8 }} onClick={() => setActiveTool('tegtaeg')} className="rounded-[2rem] p-8 bg-[#F5F0FF] border-2 border-dashed border-[#7C3AED]/30 cursor-pointer group">
+                  <Percent size={32} className="text-[#0A2F73] mb-6" />
+                  <div className="font-black text-[#0A2F73] text-xl">{t('publications.tegtaegSimulator')}</div>
+                </motion.div>
+
+                <motion.div whileHover={{ y: -8 }} onClick={() => setActiveTool('credit')} className="rounded-[2rem] p-8 bg-[#F0FFF4] border-2 border-dashed border-[#0A2F73]/30 cursor-pointer group">
+                  <Coins size={32} className="text-[#0A2F73] mb-6" />
+                  <div className="font-black text-[#0A2F73] text-xl">{t('publications.creditSimulator')}</div>
+                </motion.div>
+
+                <motion.div whileHover={{ y: -8 }} onClick={() => setActiveTool('ratios')} className="rounded-[2rem] p-8 bg-[#FEF3E2] border-2 border-dashed border-[#E64501]/30 cursor-pointer group">
+                  <Activity size={32} className="text-[#0A2F73] mb-6" />
+                  <div className="font-black text-[#0A2F73] text-xl">{t('publications.ratioSimulator')}</div>
                 </motion.div>
              </div>
           </div>
@@ -271,11 +271,11 @@ export function PublicationsPage() {
         {activeTool && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setActiveTool(null)} className="absolute inset-0 bg-[#0A2F73]/80 backdrop-blur-sm" />
-            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} onClick={(e) => e.stopPropagation()} className="relative w-full max-w-4xl bg-white rounded-[2.5rem] shadow-2xl max-h-[90vh] overflow-hidden flex flex-col">
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} onClick={(e) => e.stopPropagation()} className={`relative w-full bg-white rounded-[2.5rem] shadow-2xl max-h-[90vh] overflow-hidden flex flex-col ${(activeTool === 'tegtaeg' || activeTool === 'amortissement' || activeTool === 'credit' || activeTool === 'ratios') ? 'max-w-5xl' : 'max-w-4xl'}`}>
               
               <div className="p-6 border-b flex justify-between items-center bg-white z-10">
                 <h2 className="text-xl font-black text-[#0A2F73]">
-                    {activeTool === 'salary' ? 'Simulateur de Paie' : activeTool === 'tax' ? "Calculateur d'Impôts" : "Assistant Fiscal IA ADOC"}
+                    {activeTool === 'salary' ? t('publications.modalSalary') : activeTool === 'tax' ? t('publications.modalTax') : activeTool === 'amortissement' ? t('publications.modalAmortissement') : activeTool === 'tegtaeg' ? t('publications.modalTEGTAEG') : activeTool === 'credit' ? t('publications.modalCredit') : t('publications.modalRatios')}
                 </h2>
                 <button type="button" onClick={() => setActiveTool(null)} className="p-2 hover:bg-gray-100 rounded-full"><X size={24} className="text-[#0A2F73]" /></button>
               </div>
@@ -283,45 +283,10 @@ export function PublicationsPage() {
               <div className="p-8 overflow-y-auto bg-slate-50/30 flex-grow">
                  {activeTool === 'salary' && <SalarySimulator />}
                  {activeTool === 'tax' && <TaxCalculator />}
-                 
-                 {activeTool === 'chatbot' && (
-                   <div className="flex flex-col h-[500px] bg-white rounded-[2rem] border shadow-inner overflow-hidden">
-                      {chat.error && (
-                        <div className="mx-4 mt-3 p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm">
-                          {chat.error.message}
-                        </div>
-                      )}
-                      <div className="flex-grow p-6 overflow-y-auto space-y-4">
-                        {messages.length === 0 && !chat.error && <p className="text-center opacity-20 italic mt-20">Posez vos questions sur le CGI Sénégalais...</p>}
-                        {messages.map((m) => (
-                          <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                            <div className={`max-w-[85%] p-4 rounded-2xl text-sm ${m.role === 'user' ? 'bg-[#0A2F73] text-white' : 'bg-slate-100 text-[#0A2F73]'}`}>
-                              {getMessageText(m)}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      <form onSubmit={handleSubmit} className="p-4 bg-white border-t flex gap-2">
-                        <input
-                          type="text"
-                          autoFocus
-                          value={inputValue}
-                          onChange={(e) => setInputValue(e.target.value)}
-                          placeholder="Écrivez ici..."
-                          className="flex-grow p-4 bg-slate-50 rounded-xl outline-none border border-transparent focus:border-[#0A2F73]/30 text-[#0A2F73]"
-                          disabled={isLoading}
-                        />
-                        <button
-                          type="submit"
-                          disabled={isLoading || !inputValue.trim()}
-                          className={`p-4 rounded-xl shrink-0 ${inputValue.trim() ? 'bg-[#0A2F73] text-white hover:opacity-90' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
-                        >
-                          <Send size={20} />
-                        </button>
-                      </form>
-                   </div>
-                 )}
+                 {activeTool === 'amortissement' && <AmortissementSimulator />}
+                 {activeTool === 'tegtaeg' && <TEGTAEGSimulator />}
+                 {activeTool === 'credit' && <CreditSimulator />}
+                 {activeTool === 'ratios' && <RatioSimulator />}
               </div>
             </motion.div>
           </div>

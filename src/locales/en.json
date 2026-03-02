@@ -1,0 +1,516 @@
+{
+  "nav": {
+    "home": "Home",
+    "cabinet": "The firm",
+    "expertise": "Expertise",
+    "references": "References",
+    "publications": "Publications",
+    "agendas": "Agendas",
+    "simulateurs": "Simulators",
+    "calendarFiscal": "Fiscal & Social Calendar",
+    "calendarImmo": "Real Estate Calendar",
+    "simulatorPay": "Pay Simulator",
+    "calculatorTax": "Tax Calculator",
+    "simulatorTEG": "TEG / APR Simulator",
+    "ratios": "Financial Ratios",
+    "technicalNotes": "Technical notes",
+    "chatbot": "AI Chatbot",
+    "crypto": "Earn money (ADOC Crypto)",
+    "careers": "Careers",
+    "contactUs": "Contact us"
+  },
+  "hero": {
+    "title": "ADOC Audit <orange>&</orange> Conseil",
+    "subtitle": "Audit, <orange>advisory</orange> and <orange>accounting expertise</orange> firm",
+    "discover": "Discover more",
+    "discoverAria": "Scroll down to see more"
+  },
+  "whyUs": {
+    "badge": "The ADOC advantage",
+    "title": "Why choose our firm for your strategic challenges?",
+    "tagline": "Technical excellence combined with a deep knowledge of the African market.",
+    "reasons": {
+      "panafrican": {
+        "title": "Pan-African expertise",
+        "desc": "A strategic presence in UMEOA and CEMAC zones to support your regional expansion."
+      },
+      "tailored": {
+        "title": "Tailored approach",
+        "desc": "We don't believe in one-size-fits-all. Every assignment is adapted to your local realities."
+      },
+      "rigor": {
+        "title": "Rigor & compliance",
+        "desc": "A strict audit methodology ensuring the financial and tax security of your organization."
+      },
+      "partnership": {
+        "title": "Long-term partnership",
+        "desc": "More than a service provider, we become a trusted advisor for your governance."
+      }
+    }
+  },
+  "toolsSimulation": {
+    "title": "Move from strategy to action",
+    "subtitle": "Because financial clarity is key to your decisions, use our free simulators for reliable first estimates or contact our experts for an in-depth analysis.",
+    "tryTool": "Try the tool",
+    "ctaExpert": "Need a personalized diagnostic? Talk to an expert",
+    "tools": {
+      "pay": {
+        "title": "Pay Simulator",
+        "desc": "Estimate your payroll costs in a few clicks."
+      },
+      "tax": {
+        "title": "Tax Calculator",
+        "desc": "Anticipate your regional tax obligations."
+      },
+      "tegtaeg": {
+        "title": "TEG / APR Simulator",
+        "desc": "Check the true cost of your bank financing."
+      },
+      "ratios": {
+        "title": "Financial Ratios",
+        "desc": "Analyze the health and profitability of your structure."
+      }
+    }
+  },
+  "services": {
+    "title": "Our services",
+    "subtitle": "Complementary expertise at the service of your performance",
+    "audit": { "title": "Audit & Statutory auditing", "desc": "Legal and contractual audit, statutory audit assignments." },
+    "expertise": { "title": "Accounting & Tax expertise", "desc": "Bookkeeping, accounting review, tax and financial statements." },
+    "conseil": { "title": "Strategic & Organizational advisory", "desc": "Supporting leaders in their strategic and organizational choices." },
+    "restructuration": { "title": "Transactions & Restructuring", "desc": "Restructuring operations, valuation and strategic support." },
+    "public": { "title": "Public sector & Public policy", "desc": "Audit, advisory and support for public and parastatal institutions." },
+    "digital": { "title": "Information systems & Digital transformation", "desc": "IS modernization, digital support and data governance." }
+  },
+  "team": {
+    "title": "Our team",
+    "subtitle": "Dedicated experts at your service",
+    "previous": "Previous",
+    "next": "Next",
+    "viewProfile": "View profile",
+    "hint": "Hover / click to see full profile →",
+    "expertiseLabel": "Areas of expertise",
+    "closeHint": "Tip: Move the mouse outside the window to close.",
+    "close": "Close",
+    "levels": {
+      "associes": {
+        "label": "Partners",
+        "role": "Chartered Accountant",
+        "ibrahima": {
+          "description": "Over 15 years of experience in audit and financial advisory",
+          "bio": "Ibrahima supports companies on financial reliability, legal and contractual audit, and the design of internal control processes.",
+          "expertise": ["Legal audit", "Financial advisory", "Internal control", "Reporting"]
+        },
+        "alpha": {
+          "description": "Specialist in tax and business optimization",
+          "bio": "Alpha works on tax optimization, legal structuring of groups and strategic support for leaders (growth, restructuring, compliance).",
+          "expertise": ["Tax", "Structuring", "Optimization", "Strategic advisory"]
+        }
+      },
+      "stagiaires": {
+        "label": "Chartered Accountant Trainees",
+        "role": "Chartered Accountant Trainee",
+        "mansour": {
+          "description": "Training for the chartered accountant qualification.",
+          "bio": "Mansour participates in audit and advisory assignments under the supervision of partners.",
+          "expertise": ["Audit", "Accounting", "Training"]
+        },
+        "moustapha": {
+          "description": "Training for the chartered accountant qualification.",
+          "bio": "Moustapha supports teams on accounting review and tax assignments.",
+          "expertise": ["Accounting review", "Tax", "Training"]
+        },
+        "diouck": {
+          "description": "Training for the chartered accountant qualification.",
+          "bio": "Diouck contributes to audit and bookkeeping assignments.",
+          "expertise": ["Bookkeeping", "Audit", "Training"]
+        }
+      },
+      "equipe": {
+        "label": "Our team",
+        "mariama": {
+          "role": "Audit Manager",
+          "description": "Expert in statutory audit and internal control",
+          "bio": "Mariama leads audit assignments, planning and quality monitoring, with a risk-based and continuous improvement approach.",
+          "expertise": ["Audit", "Statutory audit", "Risk management", "Quality"]
+        },
+        "fatoukine": {
+          "role": "Auditor",
+          "description": "Specialist in payroll and human resources management",
+          "bio": "Fatou works on HR and payroll assignments, social compliance and supporting teams in implementing procedures and tools.",
+          "expertise": ["Payroll", "HR", "Social compliance", "Process"]
+        },
+        "fatousane": {
+          "role": "Auditor",
+          "description": "Specialist in payroll and human resources management",
+          "bio": "Fatou works on HR and payroll assignments, social compliance and supporting teams in implementing procedures and tools.",
+          "expertise": ["Payroll", "HR", "Social compliance", "Process"]
+        },
+        "abdou": {
+          "role": "Auditor",
+          "description": "Member of the audit and advisory team",
+          "bio": "Abdou contributes to audit missions and client support.",
+          "expertise": ["Audit", "Advisory", "Accounting"]
+        },
+        "adama": {
+          "role": "Consultant",
+          "description": "Member of the audit and advisory team",
+          "bio": "Adama participates in advisory and accounting expertise missions.",
+          "expertise": ["Advisory", "Accounting expertise", "Tax"]
+        },
+        "ndeyefatou": {
+          "role": "Auditor",
+          "description": "Member of the audit and advisory team",
+          "bio": "Ndeye Fatou works on audit and compliance missions.",
+          "expertise": ["Audit", "Compliance", "Internal control"]
+        },
+        "ndeyemaguette": {
+          "role": "Consultant",
+          "description": "Member of the audit and advisory team",
+          "bio": "Ndeye Maguette supports clients on their advisory and audit projects.",
+          "expertise": ["Advisory", "Audit", "Reporting"]
+        }
+      }
+    }
+  },
+  "diagnosticCTA": {
+    "title": "Ready to secure your growth in Africa?",
+    "text": "Don't let tax uncertainty hold back your expansion. Get an expert first opinion in 2 minutes.",
+    "button": "Launch free diagnostic"
+  },
+  "footer": {
+    "tagline": "Your trusted partner in accounting expertise for over 20 years.",
+    "services": "Services",
+    "about": "About",
+    "follow": "Follow us",
+    "contactWhatsApp": "Contact us on WhatsApp:",
+    "legal": "Legal notice",
+    "privacy": "Privacy policy",
+    "copyright": "© 2026 ADOC Audit & Conseil. All rights reserved.",
+    "expertiseComptable": "Accounting expertise",
+    "conseilFiscal": "Tax advisory",
+    "auditCommissariat": "Audit & Statutory",
+    "gestionSociale": "Payroll & social",
+    "ourTeam": "Our team",
+    "ourValues": "Our values",
+    "news": "News",
+    "careers": "Careers"
+  },
+  "publications": {
+    "title": "Publications",
+    "andTools": "Tools",
+    "salarySimulator": "Salary simulator",
+    "taxCalculator": "Tax calculator",
+    "assistantIA": "ADOC AI assistant",
+    "modalSalary": "Pay simulator",
+    "modalTax": "Tax calculator",
+    "modalChatbot": "ADOC fiscal AI assistant",
+    "chatbotPlaceholder": "Ask your questions about Senegalese tax code (CGI)...",
+    "chatbotInputPlaceholder": "Type here...",
+    "chatbotTooltip": "How can I help you?",
+    "quickReplyRdv": "📅 Book a meeting with an expert",
+    "quickReplyQuestion": "💬 Ask a question to the chartered accountant",
+    "calendlyMessage": "Would you like a 15-minute call with Ibrahima Gueye to discuss your project?",
+    "calendlyLink": "Book a time slot",
+    "close": "Close",
+    "chooseOption": "Choose an option:",
+    "formAskName": "What is your full name?",
+    "formAskPhone": "Your phone number?",
+    "formAskEmail": "Your email address?",
+    "formAskMessage": "What is your message?",
+    "formThanks": "Thank you, your information has been submitted. We will get back to you very soon.",
+    "newRequest": "New request",
+    "rdvIntro": "Great choice! A direct exchange is the best way to secure your strategy. To prepare this call with Mr. Ibrahima Gueye, I need a few details...",
+    "questionRedirect": "This is an excellent question that deserves an in-depth analysis. Would you like to pass this point on directly to Mr. Ibrahima Gueye (Associate Chartered Accountant) for an official response?",
+    "questionRedirectYes": "Yes, forward to Mr. Gueye",
+    "questionRedirectNo": "No, thanks",
+    "questionNoThanks": "I understand. I remain at your disposal if you have any other questions!",
+    "typingIndicator": "Typing...",
+    "fiscalCalendar": "Official calendar",
+    "fiscalDeadlines": "Fiscal & social deadlines",
+    "deadlineDetails": "Deadline details",
+    "selectDate": "Select a date to view legal obligations.",
+    "clickDayForDetails": "Click on a highlighted day for details",
+    "weekDays": ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
+    "amortissementSimulator": "Depreciation simulator",
+    "modalAmortissement": "Depreciation: Linear or declining",
+    "tegtaegSimulator": "TEG / APR",
+    "modalTEGTAEG": "TEG / APR - Effective interest rate",
+    "creditSimulator": "Credit simulator",
+    "modalCredit": "In Fine credit simulation",
+    "ratioSimulator": "Financial diagnostic ratios",
+    "modalRatios": "Usual ratios - Financial diagnostic & profitability"
+  },
+  "tegtaeg": {
+    "title": "TEG / APR - Effective global rate calculator",
+    "calcType": "Rate calculation type",
+    "loanAmount": "Loan amount",
+    "currency": "FCFA",
+    "durationYears": "Duration",
+    "durationMonths": "Duration",
+    "years": "years",
+    "months": "months",
+    "annualRate": "Annual rate (excl. insurance)",
+    "insuranceRate": "Insurance rate on borrowed capital",
+    "fees": "Processing fees",
+    "calculate": "Calculate",
+    "resultRate": "effective rate",
+    "monthlyPayment": "Monthly payment (with insurance)",
+    "totalCost": "Total cost of credit",
+    "showChart": "View chart",
+    "hideChart": "Hide chart",
+    "chartTitle": "Repayment breakdown by year",
+    "colPrincipal": "Principal",
+    "colInterest": "Interest",
+    "colInsurance": "Insurance",
+    "yearLabel": "Year {{year}}",
+    "waiting": "Fill in the fields and click Calculate"
+  },
+  "amortissement": {
+    "title": "Depreciation: Linear or declining",
+    "depreciationType": "Depreciation type",
+    "linear": "Linear",
+    "degressive": "Declining",
+    "purchaseDate": "Purchase or commissioning date",
+    "dateFormat": "DD/MM/YYYY",
+    "duration": "Depreciation period (3 to 30 years)",
+    "amount": "Amount",
+    "currency": "FCFA",
+    "calculate": "Calculate",
+    "tableTitle": "Depreciation schedule",
+    "yearLabel": "Year {{year}}",
+    "colYear": "Year",
+    "colDepreciation": "Depreciation",
+    "colCumulative": "Cumulative",
+    "colNetValue": "Net book value",
+    "showChart": "View chart",
+    "hideChart": "Hide chart",
+    "chartTitle": "Depreciation and net value over time",
+    "waiting": "Fill in the fields and click Calculate"
+  },
+  "credit": {
+    "title": "Credit simulation (In Fine)",
+    "hint": "Enter three values then click the button in front of the field to calculate the fourth.",
+    "loanDate": "Loan date",
+    "dateFormat": "DD/MM/YYYY",
+    "amount": "Borrowed amount",
+    "rate": "Annual interest rate",
+    "duration": "Duration",
+    "years": "years",
+    "totalCost": "Total cost of credit",
+    "inFineAmount": "In Fine amount (principal + interest)",
+    "currency": "FCFA",
+    "calc": "Calculate",
+    "calcButtonTitle": "Calculate this value from the other three",
+    "hypotheses": "Summary of assumptions",
+    "showChart": "View chart",
+    "hideChart": "Hide chart",
+    "chartTitle": "Interest and principal by period",
+    "colInterest": "Interest",
+    "colPrincipal": "Principal repaid",
+    "yearLabel": "Year {{year}}",
+    "waiting": "Enter three values and click Calculate in front of the fourth."
+  },
+  "ratios": {
+    "title": "Usual ratios - Financial diagnostic & profitability",
+    "selectRatio": "Please select the ratio to calculate.",
+    "ratioToCalculate": "Ratio to calculate",
+    "ratios": {
+      "valueAdded": "Value added rate",
+      "tradingMargin": "Trading margin rate",
+      "ebitda": "EBITDA rate (gross operating surplus)",
+      "netResult": "Net result rate"
+    },
+    "labels": {
+      "valueAdded_1": "Value added",
+      "valueAdded_2": "Revenue",
+      "tradingMargin_1": "Trading margin",
+      "tradingMargin_2": "Revenue",
+      "ebitda_1": "EBITDA",
+      "ebitda_2": "Revenue",
+      "netResult_1": "Net result",
+      "netResult_2": "Revenue"
+    },
+    "descriptions": {
+      "valueAdded": "This ratio measures the company's contribution to the value of production.",
+      "tradingMargin": "This ratio measures the margin on sales relative to revenue.",
+      "ebitda": "This ratio measures operating profitability before financial charges and depreciation.",
+      "netResult": "This ratio measures the share of revenue remaining as net result."
+    },
+    "ratioLabel": "Ratio",
+    "currency": "FCFA",
+    "chartTitle": "Breakdown (value added / revenue components)",
+    "otherComponents": "Other revenue components",
+    "waiting": "Enter amounts to display the ratio and chart."
+  },
+  "cabinet": {
+    "title": "The Firm",
+    "intro1": "ADOC Audit & Conseil is a structured and independent firm, operating in Senegal and across the West African sub-region. The firm supports public and private organizations facing complex governance, compliance, performance and transformation challenges.",
+    "intro2": "ADOC's positioning is based on a central conviction: the quality of decisions depends directly on the reliability of information, the robustness of analysis and the independence of advice.",
+    "galleryTitle": "The firm in pictures",
+    "enlarge": "Enlarge",
+    "tip": "Tip: hover over the carousel to pause. Click on an image to enlarge it.",
+    "pause": "pause",
+    "auto": "auto",
+    "prevImage": "Previous image",
+    "nextImage": "Next image",
+    "goToImage": "Go to image",
+    "ourApproach": "Our approach",
+    "approach1": "Technical rigor & compliance (audit, tax, standards).",
+    "approach2": "In-depth understanding of organizational realities in West Africa.",
+    "approach3": "Commitment to quality and confidentiality on sensitive assignments.",
+    "historyTitle": "History (43 years in existence)",
+    "gallery": "Gallery",
+    "timeline": [
+      { "year": "1981", "title": "CMG founded", "desc": "Launch of activities and structuring of initial assignments." },
+      { "year": "2000", "title": "International expansion", "desc": "Opening and consolidation of standards and partnerships." },
+      { "year": "2009", "title": "ADOC SA", "desc": "Evolution and structuring under the ADOC brand." },
+      { "year": "Now", "title": "Regional reference firm", "desc": "Multi-sector operations across West Africa." }
+    ]
+  },
+  "expertisePage": {
+    "title": "Expertise",
+    "seeReferences": "See our references",
+    "requestMeeting": "Request a confidential meeting",
+    "blocks": [
+      { "title": "Audit & Statutory", "items": ["Legal audit", "Contractual audit", "Project & donor audit", "Public audit & compliance"] },
+      { "title": "Accounting & tax expertise", "items": ["Outsourcing", "Reporting", "National & international tax"] },
+      { "title": "Strategic & organizational advisory", "items": ["Diagnostics", "Restructuring", "Performance", "Governance"] },
+      { "title": "Transactions & valuation", "items": ["Due diligence", "Mergers & acquisitions", "Valuations"] },
+      { "title": "Public sector & public policy", "items": ["Public finance", "Public procurement", "Sector strategies"] },
+      { "title": "Digital & information systems", "items": ["IT audit", "Accounting organization", "Management tools"] }
+    ]
+  },
+  "contact": {
+    "title": "Contact us",
+    "subtitle": "We are here to answer all your questions",
+    "contactInfo": "Contact information",
+    "address": "Address",
+    "addressValue": "Allées Therno Seydou Nourou TALL, Villa n° 4267 Point E, Dakar 16600, Senegal",
+    "phone": "Phone",
+    "email": "Email",
+    "hours": "Hours",
+    "hoursValue": "Monday - Friday: 8:30 AM - 6:00 PM",
+    "fullName": "Full name",
+    "fullNamePlaceholder": "Your name",
+    "emailPlaceholder": "your.email@example.com",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Subject of your request",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Your message",
+    "send": "Send message"
+  },
+  "references": {
+    "title": "Sectors & References",
+    "subtitle": "Focused sector expertise backed by major assignments for leading institutions.",
+    "expertisePoles": "Our expertise areas",
+    "trustUs": "They trust us",
+    "press": "Press",
+    "news2024": "News 2024",
+    "ndjamenaTitle": "Opening of an office in N'Djamena",
+    "ndjamenaDesc": "Strategic expansion in the CEMAC zone to support Chadian economic players.",
+    "readArticle": "Read article",
+    "expertiseAdoc": "ADOC expertise",
+    "sectors": [
+      { "fullTitle": "Institutions & Projects", "desc": "Audit of projects funded by donors (World Bank, AfDB) and public bodies." },
+      { "fullTitle": "Energy & Mining", "desc": "Tax and regulatory expertise for extractive industries and energy projects." },
+      { "fullTitle": "Finance & Insurance", "desc": "Legal audit, compliance review and financial risk management." },
+      { "fullTitle": "Telecoms & Tech", "desc": "Support for startups and operators in their digital structuring." },
+      { "fullTitle": "Industry & Construction", "desc": "Cost optimization and audit of complex projects." },
+      { "fullTitle": "Healthcare & Social", "desc": "Strategic advisory for clinics: budget management and compliance." },
+      { "fullTitle": "Hospitality & Real estate", "desc": "Structuring of investment vehicles and hotel management audit." },
+      { "fullTitle": "SMEs & Groups", "desc": "Business transfer, family governance and outsourcing." }
+    ],
+    "referenceCategories": [
+      { "title": "Public institutions", "items": ["IGE, ARCOP, ADS, ADPME"] },
+      { "title": "International projects", "items": ["World Bank, UN"] },
+      { "title": "Private groups", "items": ["SAR, CBAO"] },
+      { "title": "NGOs & donors", "items": ["Care International, Amnesty International"] }
+    ]
+  },
+  "carrieres": {
+    "title": "Careers",
+    "intro": "Join an independent, demanding and committed firm. At ADOC, every assignment is an opportunity to make an impact (audit, advisory, projects, public sector, digital).",
+    "spontaneousTitle": "Spontaneous application",
+    "spontaneousDesc": "No matching vacancy? Send us your profile. We review every application in strict confidence.",
+    "applyNow": "Apply now",
+    "modalTitle": "Your application",
+    "thankYou": "Thank you!",
+    "successMessage": "Your application has been submitted successfully.",
+    "lastName": "Last name",
+    "firstName": "First name",
+    "lastNamePlaceholder": "Last name",
+    "firstNamePlaceholder": "First name",
+    "emailPlaceholder": "your@email.com",
+    "coverLetter": "Cover letter",
+    "coverLetterPlaceholder": "Tell us about your project...",
+    "cv": "CV (PDF/Doc) *",
+    "submit": "Submit application",
+    "submitting": "Sending...",
+    "requiredNote": "* Required fields. Your data is processed in accordance with our privacy policy."
+  },
+  "salarySimulator": {
+    "title": "Senegal Pay Simulator",
+    "brutToNet": "GROSS → NET",
+    "netToBrut": "NET → GROSS",
+    "salaryLabelBrut": "Taxable Gross Salary",
+    "salaryLabelNet": "Desired Net Pay",
+    "cfa": "CFA",
+    "single": "SINGLE",
+    "married": "MARRIED",
+    "children": "Children",
+    "child": "child",
+    "childrenPlural": "children",
+    "spouseNoIncome": "SPOUSE WITH NO INCOME",
+    "category": "Category",
+    "nonCadre": "NON-EXECUTIVE",
+    "cadre": "EXECUTIVE",
+    "taxParts": "Tax shares (CGI)",
+    "part": "share",
+    "parts": "shares",
+    "monthlyDetails": "Monthly details",
+    "retirement": "Retirement (IPRES)",
+    "incomeTax": "Income tax (Net)",
+    "municipalTax": "Municipal tax (TRIMF)",
+    "transport": "Transport",
+    "netToReceive": "NET TO RECEIVE",
+    "brutEstimated": "ESTIMATED GROSS",
+    "waitingInput": "Waiting for input",
+    "disclaimer": "Simulator compliant with Law No. 2022-19 of 27 May 2022 (Senegal)"
+  },
+  "taxCalculator": {
+    "title": "Annual Income Tax Calculator",
+    "annualGrossIncome": "Annual Gross Income",
+    "placeholder": "E.g. 5000000",
+    "cfa": "CFA",
+    "situation": "Situation",
+    "single": "Single",
+    "married": "Married",
+    "widower": "Widow(er)",
+    "children": "Children",
+    "calculate": "Calculate annual tax",
+    "totalTaxToPay": "Total Tax to Pay (Year)",
+    "familyQuotient": "Family Quotient",
+    "part": "Share",
+    "parts": "Shares",
+    "incomeTaxNet": "Income Tax (Net)",
+    "municipalTax": "Municipal Tax",
+    "disclaimer": "*Article 174 cap applied (Max 5 shares / Max 43% RNI)",
+    "waiting": "Waiting for calculation..."
+  },
+  "secteursPage": {
+    "title": "Sectors of activity",
+    "subtitle": "Expertise tailored to the challenges of each industry.",
+    "subtitleHint": "Hover over a card to read the details.",
+    "sectors": [
+      { "fullTitle": "Institutions & Development projects", "desc": "Audit of projects funded by donors (World Bank, AfDB) and support for public bodies." },
+      { "fullTitle": "Energy, mining & natural resources", "desc": "Tax and regulatory expertise for extractive industries and renewable energy projects." },
+      { "fullTitle": "Finance & insurance", "desc": "Legal audit, compliance review and risk management for financial institutions." },
+      { "fullTitle": "Telecoms & technology", "desc": "Support for startups and operators in their financial and digital structuring." },
+      { "fullTitle": "Industry & construction", "desc": "Cost optimization, project audit and operational cycle management." },
+      { "fullTitle": "Healthcare & social services", "desc": "Strategic advisory for clinics: budget management and social compliance." },
+      { "fullTitle": "Hospitality & real estate", "desc": "Structuring of real estate investment vehicles and hotel management audit." },
+      { "fullTitle": "SMEs & family groups", "desc": "Business transfer, family governance and accounting outsourcing." }
+    ]
+  }
+}

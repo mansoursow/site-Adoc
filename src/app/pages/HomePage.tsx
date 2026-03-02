@@ -1,5 +1,6 @@
 import { HeroSection } from '@/app/components/HeroSection';
-import { WhyUsSection } from '@/app/components/WhyUsSection'; // 👈 Nouvel import
+import { WhyUsSection } from '@/app/components/WhyUsSection';
+import { ToolsSimulationSection } from '@/app/components/ToolsSimulationSection';
 import { ServicesSection } from '@/app/components/ServicesSection';
 import { PartnersSection } from '@/app/components/PartnersSection';
 import { TeamSection } from '@/app/components/TeamSection';
@@ -9,8 +10,9 @@ export function HomePage() {
     <div>
       <HeroSection />
       
-      {/* Nouvelle section ajoutée ici */}
-      <WhyUsSection /> 
+      <WhyUsSection />
+
+      <ToolsSimulationSection />
 
       {/* Aperçu des domaines / expertises */}
       <ServicesSection />

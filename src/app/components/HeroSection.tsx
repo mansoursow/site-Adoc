@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-import ScrambledText from '@/app/components/ScrambledText';
 
 // ✅ Images
 import hero1 from '../../assets/gallery hero/image2.jpg';
@@ -22,6 +22,7 @@ const HERO_MEDIA = [
 ];
 
 export function HeroSection() {
+  const { t } = useTranslation();
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
 
@@ -50,12 +51,12 @@ export function HeroSection() {
     <section
       className="
         relative w-full overflow-hidden
-        min-h-[100svh] md:min-h-[100dvh]
+        min-h-[max(600px,85svh)] md:min-h-[100dvh]
         bg-white
       "
     >
       {/* ================= BACKGROUND SLIDER ================= */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 min-w-full min-h-full">
         <AnimatePresence mode="wait">
           {current.type === 'video' ? (
             <motion.video
@@ -65,7 +66,7 @@ export function HeroSection() {
               muted
               loop
               playsInline
-              className="absolute inset-0 h-full w-full object-cover object-center"
+              className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center"
               initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 1.03 }}
               animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
               exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 1.01 }}
@@ -76,7 +77,7 @@ export function HeroSection() {
               key={`image-${index}`}
               src={current.src}
               alt="ADOC background"
-              className="absolute inset-0 h-full w-full object-cover object-center"
+              className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center"
               initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 1.03 }}
               animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
               exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 1.01 }}
@@ -84,26 +85,29 @@ export function HeroSection() {
             />
           )}
         </AnimatePresence>
-
-        
       </div>
 
-      {/* ================= CONTENT (REMONTÉ EN HAUT) ================= */}
-      <div className="relative z-10 flex min-h-[100svh] justify-center px-6 pt-16 md:pt-20">
-        <div className="max-w-4xl text-center">
-          <ScrambledText
-            text="ADOC Audit & Conseil"
-            className="text-4xl md:text-6xl font-semibold text-slate-900"
-          />
+      {/* ================= CONTENT (en haut pour éviter le chevauchement avec le logo ADO) ================= */}
+      <div className="relative z-10 flex flex-col min-h-[max(600px,85svh)] md:min-h-[100dvh] justify-start items-center px-4 sm:px-6 pt-20 pb-4 md:pt-28 md:pb-4 gap-6">
+        <div className="flex flex-col items-center justify-center gap-4 md:gap-6 w-full max-w-2xl mx-auto text-center overflow-hidden">
+          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-[#0A2F73] drop-shadow-sm">
+            <Trans
+              i18nKey="hero.title"
+              components={{ orange: <span className="text-[#E64501]" /> }}
+            />
+          </h1>
 
-        <p className="mt-4 text-lg md:text-xl font-medium text-[#0A2F73]">
-  Cabinet d’audit, conseil et expertise comptable
-</p>
+          <p className="text-sm sm:text-base md:text-xl font-medium text-center max-w-md mx-auto leading-relaxed text-[#0A2F73]">
+            <Trans
+              i18nKey="hero.subtitle"
+              components={{ orange: <span className="text-[#E64501] font-semibold" /> }}
+            />
+          </p>
         </div>
       </div>
 
-      {/* ================= SCROLL DOWN (REMONTÉ + COULEURS SITE) ================= */}
-      <div className="pointer-events-none absolute bottom-28 md:bottom-32 left-0 right-0 z-20 flex justify-center">
+      {/* ================= BOUTON DÉCOUVRIR - centré, au-dessus du chat ================= */}
+      <div className="pointer-events-none absolute bottom-20 sm:bottom-24 md:bottom-32 left-0 right-0 z-20 flex justify-center">
         <button
           type="button"
           onClick={goNext}
@@ -122,11 +126,9 @@ export function HeroSection() {
           style={{
             background: 'linear-gradient(135deg, #0A2F73, #3F5F99)',
           }}
-          aria-label="Descendre pour voir la suite"
+          aria-label={t('hero.discoverAria')}
         >
-          <span className="text-xs font-semibold text-white tracking-wide">
-            Découvrir la suite
-          </span>
+          <span className="text-xs font-semibold text-white tracking-wide">{t('hero.discover')}</span>
 
           <motion.span
             className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0A2F73]"

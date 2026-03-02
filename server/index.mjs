@@ -129,6 +129,56 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+/** Endpoint pour envoi des leads (ChatWidget formulaire) */
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'mouhamadoumansoursow@yahoo.com';
+
+app.post('/api/contact-lead', async (req, res) => {
+  try {
+    const { fullName, phone, email, message, type } = req.body || {};
+    if (!fullName?.trim() || !phone?.trim() || !email?.trim()) {
+      res.status(400).json({ error: 'fullName, phone et email sont requis.' });
+      return;
+    }
+
+    const nodemailer = (await import('nodemailer')).default;
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.mail.yahoo.com',
+      port: Number(process.env.SMTP_PORT || 587),
+      secure: false,
+      auth: process.env.SMTP_USER
+        ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS || '' }
+        : undefined,
+    });
+
+    const subject = type === 'question'
+      ? `[ADOC] Question expert-comptable - ${fullName}`
+      : `[ADOC] Demande de rendez-vous - ${fullName}`;
+    const text = [
+      `Type: ${type === 'question' ? 'Question expert-comptable' : 'Prise de rendez-vous'}`,
+      `Nom: ${fullName}`,
+      `Téléphone: ${phone}`,
+      `Email: ${email}`,
+      message ? `Message: ${message}` : '',
+    ].filter(Boolean).join('\n');
+
+    if (process.env.SMTP_USER) {
+      await transporter.sendMail({
+        from: process.env.SMTP_USER,
+        to: CONTACT_EMAIL,
+        subject,
+        text,
+      });
+      res.json({ ok: true });
+    } else {
+      console.log('[contact-lead] SMTP non configuré. Données reçues:', { fullName, phone, email, message, type });
+      res.status(503).json({ error: 'SMTP non configuré. Ajoutez SMTP_USER, SMTP_PASS et CONTACT_EMAIL dans .env' });
+    }
+  } catch (err) {
+    console.error('[contact-lead] ERROR:', err.message || err);
+    res.status(500).json({ error: err.message || 'Erreur lors de l\'envoi.' });
+  }
+});
+
 app.get('/api/chat/health', (_req, res) => {
   const envChecked = envPaths.map((p) => ({ path: p, exists: fs.existsSync(p) }));
   res.json({

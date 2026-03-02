@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -45,7 +46,9 @@ type CabinetImage = {
 };
 
 export function CabinetPage() {
+  const { t } = useTranslation();
   const [activeImage, setActiveImage] = useState<string | null>(null);
+  const timeline = t('cabinet.timeline', { returnObjects: true }) as { year: string; title: string; desc: string }[];
 
   // ✅ 15 images (par défaut: contain + position centre)
   // 👉 Tu peux personnaliser uniquement celles qui posent problème (têtes coupées)
@@ -108,20 +111,18 @@ export function CabinetPage() {
             className="text-3xl md:text-5xl font-black"
             style={{ color: COLORS.blue }}
           >
-            Le Cabinet
+            {t('cabinet.title')}
           </motion.h1>
 
           <p className="mt-6 max-w-3xl text-base md:text-lg" style={{ color: 'rgba(10,47,115,0.80)' }}>
-           ADOC Audit & Conseil est un cabinet structuré et indépendant, intervenant au Sénégal et dans l’ensemble de la sous‑région ouest‑africaine. Le cabinet accompagne des organisations publiques et privées confrontées à des enjeux complexes de gouvernance, de conformité, de performance et de transformation.
-
-Le positionnement d’ADOC repose sur une conviction centrale : la qualité des décisions dépend directement de la fiabilité de l’information, de la solidité de l’analyse et de l’indépendance du conseil.
+            {t('cabinet.intro1')} {t('cabinet.intro2')}
           </p>
 
           {/* ================= CAROUSEL ================= */}
           <div className="mt-12">
             <div className="flex items-center justify-between gap-4 mb-6">
               <h2 className="text-xl md:text-2xl font-bold" style={{ color: COLORS.blue }}>
-                Le cabinet en images
+                {t('cabinet.galleryTitle')}
               </h2>
 
               {/* ✅ Toggle de test */}
@@ -176,7 +177,7 @@ Le positionnement d’ADOC repose sur une conviction centrale : la qualité des 
                     <div className="text-sm md:text-base font-semibold">{current.alt}</div>
                     <div className="text-xs opacity-80 mt-1">
                       {slide + 1} / {total}
-                      {paused ? ' • pause' : ' • auto'} • {fit}
+                      {paused ? ` • ${t('cabinet.pause')}` : ` • ${t('cabinet.auto')}`} • {fit}
                     </div>
                   </div>
 
@@ -186,7 +187,7 @@ Le positionnement d’ADOC repose sur une conviction centrale : la qualité des 
                     className="rounded-full px-4 py-2 text-xs md:text-sm font-semibold bg-white/85 hover:bg-white transition"
                     style={{ color: COLORS.blue }}
                   >
-                    Agrandir
+                    {t('cabinet.enlarge')}
                   </button>
                 </div>
 
@@ -195,7 +196,7 @@ Le positionnement d’ADOC repose sur une conviction centrale : la qualité des 
                   type="button"
                   onClick={prev}
                   className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 rounded-full p-2 bg-white/80 hover:bg-white shadow"
-                  aria-label="Image précédente"
+                  aria-label={t('cabinet.prevImage')}
                 >
                   <ChevronLeft size={18} color={COLORS.blue} />
                 </button>
@@ -204,7 +205,7 @@ Le positionnement d’ADOC repose sur une conviction centrale : la qualité des 
                   type="button"
                   onClick={next}
                   className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 rounded-full p-2 bg-white/80 hover:bg-white shadow"
-                  aria-label="Image suivante"
+                  aria-label={t('cabinet.nextImage')}
                 >
                   <ChevronRight size={18} color={COLORS.blue} />
                 </button>
@@ -217,7 +218,7 @@ Le positionnement d’ADOC repose sur une conviction centrale : la qualité des 
                       type="button"
                       onClick={() => setSlide(i)}
                       className="h-2.5 w-2.5 rounded-full transition"
-                      aria-label={`Aller à l'image ${i + 1}`}
+                      aria-label={`${t('cabinet.goToImage')} ${i + 1}`}
                       style={{
                         backgroundColor: i === slide ? COLORS.blue2 : 'rgba(255,255,255,0.55)',
                         boxShadow: i === slide ? '0 0 0 2px rgba(255,255,255,0.40)' : 'none',
@@ -229,7 +230,7 @@ Le positionnement d’ADOC repose sur une conviction centrale : la qualité des 
             </div>
 
             <p className="mt-3 text-sm" style={{ color: 'rgba(10,47,115,0.70)' }}>
-              Astuce : passe la souris sur le carousel pour mettre en pause. Clique sur une image pour l’agrandir.
+              {t('cabinet.tip')}
             </p>
           </div>
 
@@ -242,12 +243,12 @@ Le positionnement d’ADOC repose sur une conviction centrale : la qualité des 
               style={{ borderColor: 'rgba(201,201,201,0.60)' }}
             >
               <h2 className="text-xl md:text-2xl font-bold" style={{ color: COLORS.blue }}>
-                Notre approche
+                {t('cabinet.ourApproach')}
               </h2>
               <ul className="mt-5 space-y-3" style={{ color: 'rgba(10,47,115,0.80)' }}>
-                <li>• Rigueur technique & conformité (audit, fiscalité, normes).</li>
-                <li>• Compréhension fine des réalités des organisations en Afrique de l’Ouest.</li>
-                <li>• Exigence de qualité et confidentialité sur les missions sensibles.</li>
+                <li>• {t('cabinet.approach1')}</li>
+                <li>• {t('cabinet.approach2')}</li>
+                <li>• {t('cabinet.approach3')}</li>
               </ul>
             </div>
 
@@ -260,7 +261,7 @@ Le positionnement d’ADOC repose sur une conviction centrale : la qualité des 
               }}
             >
               <h2 className="text-xl md:text-2xl font-bold" style={{ color: COLORS.blue }}>
-  Historique (<span style={{ color: '#E64501' }}>43 ans</span> d'existence)
+  {t('cabinet.historyTitle')}
 </h2>
 
               <div className="mt-6 relative">
@@ -302,7 +303,7 @@ Le positionnement d’ADOC repose sur une conviction centrale : la qualité des 
            {/* ================= GALERIE ================= */}
           <div className="mt-14">
             <h2 className="text-xl md:text-2xl font-bold mb-6" style={{ color: COLORS.blue }}>
-              Galerie
+              {t('cabinet.gallery')}
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

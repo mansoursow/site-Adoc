@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
+import { ChatWidget } from '@/app/components/ChatWidget';
+import { DiagnosticCTA } from '@/app/components/DiagnosticCTA';
 import ScrollToTop from '@/app/components/ScrollToTop';
 
 import { HomePage } from '@/app/pages/HomePage';
@@ -15,14 +17,14 @@ import { ContactPage } from '@/app/pages/ContactPage';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       {/* Gère le scroll automatique vers le haut à chaque changement de page */}
       <ScrollToTop />
 
       <Header />
 
-      {/* Offset for fixed header */}
-      <main className="pt-24 md:pt-28">
+      {/* Offset for fixed header + padding bottom for ChatWidget sur mobile */}
+      <main className="pt-24 md:pt-28 pb-24 md:pb-0">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/cabinet" element={<CabinetPage />} />
@@ -38,7 +40,11 @@ export default function App() {
         </Routes>
       </main>
 
+      <DiagnosticCTA />
+
       <Footer />
+
+      <ChatWidget />
     </div>
   );
 }

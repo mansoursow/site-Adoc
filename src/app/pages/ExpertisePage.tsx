@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
 // ✅ Importation de l'image
@@ -32,6 +33,8 @@ const blocks = [
 ];
 
 export function ExpertisePage() {
+  const { t } = useTranslation();
+  const blocks = t('expertisePage.blocks', { returnObjects: true }) as { title: string; items: string[] }[];
   return (
     <div className="relative min-h-screen">
       
@@ -58,7 +61,7 @@ export function ExpertisePage() {
             transition={{ duration: 0.6 }}
             className="text-3xl md:text-5xl font-black text-[#0A2F73] mb-12"
           >
-            Expertises
+            {t('expertisePage.title')}
           </motion.h1>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
@@ -88,13 +91,13 @@ export function ExpertisePage() {
               to="/references"
               className="inline-flex items-center justify-center rounded-xl bg-[#0A2F73] text-white px-8 py-4 font-bold hover:bg-[#3F5F99] transition shadow-lg"
             >
-              Voir nos références
+              {t('expertisePage.seeReferences')}
             </Link>
             <Link
               to="/contact"
               className="inline-flex items-center justify-center rounded-xl border-2 border-[#0A2F73] text-[#0A2F73] bg-white/20 backdrop-blur-md px-8 py-4 font-bold hover:bg-white/40 transition"
             >
-              Demander un entretien confidentiel
+              {t('expertisePage.requestMeeting')}
             </Link>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Calculator, Users } from 'lucide-react';
 
@@ -11,6 +12,7 @@ interface TaxResult {
 }
 
 export function TaxCalculator() {
+  const { t } = useTranslation();
   const [revenuBrutSaisi, setRevenuBrutSaisi] = useState<string>('');
   const [situationFamiliale, setSituationFamiliale] = useState<string>('celibataire');
   const [nombreEnfants, setNombreEnfants] = useState<string>('0');
@@ -101,39 +103,39 @@ export function TaxCalculator() {
         <div className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-xl">
           <div className="flex items-center gap-3 mb-8">
             <Calculator className="text-[#0A2F73]" size={24} />
-            <h3 className="text-xl font-black text-[#0A2F73]">Calculateur IR Annuel</h3>
+            <h3 className="text-xl font-black text-[#0A2F73]">{t('taxCalculator.title')}</h3>
           </div>
           
           <div className="space-y-6">
             <div>
-              <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Revenu Annuel Brut</label>
+              <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">{t('taxCalculator.annualGrossIncome')}</label>
               <div className="relative">
                 <input
                   type="number"
                   value={revenuBrutSaisi}
                   onChange={(e) => setRevenuBrutSaisi(e.target.value)}
                   className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-4 rounded-2xl font-black text-xl outline-none transition-all"
-                  placeholder="Ex: 5000000"
+                  placeholder={t('taxCalculator.placeholder')}
                 />
-                <span className="absolute right-5 top-1/2 -translate-y-1/2 font-black text-slate-300 tracking-tighter">CFA</span>
+                <span className="absolute right-5 top-1/2 -translate-y-1/2 font-black text-slate-300 tracking-tighter">{t('taxCalculator.cfa')}</span>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-black text-gray-400 uppercase mb-2 tracking-widest">Situation</label>
+                <label className="block text-xs font-black text-gray-400 uppercase mb-2 tracking-widest">{t('taxCalculator.situation')}</label>
                 <select 
                   value={situationFamiliale} 
                   onChange={(e) => setSituationFamiliale(e.target.value)}
                   className="w-full bg-slate-50 p-4 rounded-2xl font-bold outline-none border-2 border-transparent focus:border-[#0A2F73]/20"
                 >
-                  <option value="celibataire">Célibataire</option>
-                  <option value="marie">Marié(e)</option>
-                  <option value="veuf">Veuf(ve)</option>
+                  <option value="celibataire">{t('taxCalculator.single')}</option>
+                  <option value="marie">{t('taxCalculator.married')}</option>
+                  <option value="veuf">{t('taxCalculator.widower')}</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-black text-gray-400 uppercase mb-2 tracking-widest">Enfants</label>
+                <label className="block text-xs font-black text-gray-400 uppercase mb-2 tracking-widest">{t('taxCalculator.children')}</label>
                 <input
                   type="number"
                   value={nombreEnfants}
@@ -144,7 +146,7 @@ export function TaxCalculator() {
             </div>
 
             <button onClick={calculateTax} className="w-full bg-[#0A2F73] text-white py-5 rounded-2xl font-black hover:bg-[#E64501] transition-all shadow-lg shadow-[#0A2F73]/20 uppercase tracking-widest text-sm">
-              Calculer l'impôt annuel
+              {t('taxCalculator.calculate')}
             </button>
           </div>
         </div>
@@ -155,40 +157,40 @@ export function TaxCalculator() {
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
               <div className="bg-[#0A2F73] p-8 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16" />
-                <div className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-2 text-center">Impôt Total à Payer (An)</div>
+                <div className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-2 text-center">{t('taxCalculator.totalTaxToPay')}</div>
                 <div className="text-4xl font-black text-[#E64501] text-center">
-                  {result.impotTotal.toLocaleString('fr-FR')} <span className="text-sm font-normal text-white italic">CFA</span>
+                  {result.impotTotal.toLocaleString('fr-FR')} <span className="text-sm font-normal text-white italic">{t('taxCalculator.cfa')}</span>
                 </div>
               </div>
 
               <div className="bg-white p-6 rounded-2xl border border-gray-100 flex justify-between items-center shadow-sm">
                 <div className="flex items-center gap-3">
                     <Users size={18} className="text-[#0A2F73]" />
-                    <span className="text-xs font-black text-gray-400 uppercase tracking-widest">Quotient Familial</span>
+                    <span className="text-xs font-black text-gray-400 uppercase tracking-widest">{t('taxCalculator.familyQuotient')}</span>
                 </div>
                 <span className="text-xl font-black text-[#0A2F73] bg-[#0A2F73]/5 px-4 py-1 rounded-lg">
-                    {result.parts} Part{result.parts > 1 ? 's' : ''}
+                    {result.parts} {result.parts === 1 ? t('taxCalculator.part') : t('taxCalculator.parts')}
                 </span>
               </div>
 
               <div className="bg-white p-6 rounded-2xl border border-gray-100 flex justify-between items-center shadow-sm">
-                <span className="text-xs font-black text-gray-400 uppercase tracking-widest italic">Impôt IR Net</span>
-                <span className="text-lg font-black text-[#0A2F73]">{result.impotIR.toLocaleString('fr-FR')} CFA</span>
+                <span className="text-xs font-black text-gray-400 uppercase tracking-widest italic">{t('taxCalculator.incomeTaxNet')}</span>
+                <span className="text-lg font-black text-[#0A2F73]">{result.impotIR.toLocaleString('fr-FR')} {t('taxCalculator.cfa')}</span>
               </div>
 
               <div className="bg-white p-6 rounded-2xl border border-gray-100 flex justify-between items-center shadow-sm">
-                <span className="text-xs font-black text-gray-400 uppercase tracking-widest italic">Taxe Municipale</span>
-                <span className="text-lg font-black text-[#0A2F73]">{result.trimf.toLocaleString('fr-FR')} CFA</span>
+                <span className="text-xs font-black text-gray-400 uppercase tracking-widest italic">{t('taxCalculator.municipalTax')}</span>
+                <span className="text-lg font-black text-[#0A2F73]">{result.trimf.toLocaleString('fr-FR')} {t('taxCalculator.cfa')}</span>
               </div>
 
               <p className="text-[10px] text-gray-400 text-center italic mt-4">
-                *Plafonnement de l'Article 174 appliqué (Max 5 parts / Max 43% RNI)
+                {t('taxCalculator.disclaimer')}
               </p>
             </motion.div>
           ) : (
             <div className="h-full border-4 border-dashed border-slate-100 rounded-[2.5rem] flex flex-col items-center justify-center p-12 text-center">
               <Calculator size={48} className="text-slate-200 mb-4" />
-              <p className="text-slate-300 text-xs font-black uppercase tracking-[0.2em]">En attente de calcul...</p>
+              <p className="text-slate-300 text-xs font-black uppercase tracking-[0.2em]">{t('taxCalculator.waiting')}</p>
             </div>
           )}
         </div>

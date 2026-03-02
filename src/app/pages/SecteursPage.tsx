@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { 
   Building2, 
@@ -57,6 +58,12 @@ const sectors = [
 ];
 
 export function SecteursPage() {
+  const { t } = useTranslation();
+  const sectorsData = t('secteursPage.sectors', { returnObjects: true }) as { fullTitle: string; desc: string }[];
+  const sectors = sectorsData.map((s, i) => ({
+    ...s,
+    icon: [<Building2 size={32} strokeWidth={1.5} key="1" />, <Zap size={32} strokeWidth={1.5} key="2" />, <BarChart3 size={32} strokeWidth={1.5} key="3" />, <Cpu size={32} strokeWidth={1.5} key="4" />, <Factory size={32} strokeWidth={1.5} key="5" />, <Stethoscope size={32} strokeWidth={1.5} key="6" />, <Hotel size={32} strokeWidth={1.5} key="7" />, <Users2 size={32} strokeWidth={1.5} key="8" />][i]
+  }));
   return (
     <div className="bg-white min-h-screen">
       <section className="py-16 md:py-24">
@@ -67,11 +74,11 @@ export function SecteursPage() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-4xl md:text-6xl font-black text-[#0A2F73] tracking-tight">
-              Secteurs d’intervention
+              {t('secteursPage.title')}
             </h1>
             <p className="mt-6 max-w-2xl text-[#0A2F73]/70 text-lg">
-              Une expertise adaptée aux enjeux de chaque industrie. 
-              <span className="block mt-2 font-bold text-[#3F5F99]">Survolez une carte pour lire les détails.</span>
+              {t('secteursPage.subtitle')}{' '}
+              <span className="block mt-2 font-bold text-[#3F5F99]">{t('secteursPage.subtitleHint')}</span>
             </p>
           </motion.div>
 

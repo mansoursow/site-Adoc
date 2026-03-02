@@ -125,7 +125,7 @@ const partners = [
 export function PartnersSection() {
   return (
     <section className="py-16 bg-white border-y border-gray-100 overflow-hidden">
-      <div className="container mx-auto px-4 mb-10 text-center">
+      <div className="container mx-auto px-4 sm:px-6 mb-10 text-center max-w-full">
         <h3 className="text-gray-400 font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs">
           ILS NOUS FONT CONFIANCE
         </h3>

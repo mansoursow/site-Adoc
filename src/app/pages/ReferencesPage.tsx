@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { 
   Building2, Zap, BarChart3, Cpu, Factory, Stethoscope, 
@@ -60,6 +61,10 @@ const referenceCategories = [
 ];
 
 export function ReferencesPage() {
+  const { t } = useTranslation();
+  const sectorsData = t('references.sectors', { returnObjects: true }) as { fullTitle: string; desc: string }[];
+  const referenceCategories = t('references.referenceCategories', { returnObjects: true }) as { title: string; items: string[] }[];
+  const sectors = sectorsData.map((s, i) => ({ ...s, icon: [<Building2 size={32} strokeWidth={1.5} key="1" />, <Zap size={32} strokeWidth={1.5} key="2" />, <BarChart3 size={32} strokeWidth={1.5} key="3" />, <Cpu size={32} strokeWidth={1.5} key="4" />, <Factory size={32} strokeWidth={1.5} key="5" />, <Stethoscope size={32} strokeWidth={1.5} key="6" />, <Hotel size={32} strokeWidth={1.5} key="7" />, <Users2 size={32} strokeWidth={1.5} key="8" />][i] }));
   return (
     <div className="min-h-screen relative overflow-hidden">
       
@@ -84,17 +89,17 @@ export function ReferencesPage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl md:text-6xl font-black text-[#0A2F73] tracking-tight">
-              Secteurs <span className="text-[#E64501]">&</span> Références
+              {t('references.title')}
             </h1>
             <p className="mt-6 max-w-2xl text-[#0A2F73] text-lg font-semibold bg-white/10 backdrop-blur-sm inline-block rounded-lg">
-              Une expertise sectorielle pointue appuyée par des interventions majeures auprès d'institutions de premier plan.
+              {t('references.subtitle')}
             </p>
           </motion.div>
 
           {/* ================= 1. SECTEURS D'INTERVENTION ================= */}
           <div className="mt-16">
             <h2 className="text-xl font-bold text-[#3F5F99] uppercase tracking-[0.2em] mb-10">
-              Nos pôles d'expertise
+              {t('references.expertisePoles')}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {sectors.map((s, idx) => (
@@ -121,7 +126,7 @@ export function ReferencesPage() {
                       {s.desc}
                     </p>
                     <div className="mt-auto pt-4 border-t border-[#0A2F73]/10 flex justify-between items-center">
-                      <span className="text-[9px] font-black uppercase text-[#0A2F73]/60">Expertise ADOC</span>
+                      <span className="text-[9px] font-black uppercase text-[#0A2F73]/60">{t('references.expertiseAdoc')}</span>
                       <Plus className="w-4 h-4 text-[#0A2F73] group-hover:rotate-90 transition-transform" />
                     </div>
                   </div>
@@ -136,7 +141,7 @@ export function ReferencesPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
               <h2 className="text-xl font-bold text-[#3F5F99] uppercase tracking-[0.2em] mb-10">
-                Ils nous font confiance
+                {t('references.trustUs')}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {referenceCategories.map((c, idx) => (
@@ -160,7 +165,7 @@ export function ReferencesPage() {
 
             <div className="lg:col-span-1">
               <h2 className="text-xl font-bold text-[#3F5F99] uppercase tracking-[0.2em] mb-10">
-                Presse
+                {t('references.press')}
               </h2>
               <motion.a 
                 href="https://lemarche.finance/le-cabinet-dexpertise-comptable-adoc-ouvre-un-bureau-a-ndjamena/"
@@ -170,17 +175,17 @@ export function ReferencesPage() {
               >
                 <div className="bg-[#0A2F73] p-6 text-white flex items-center justify-between">
                   <MapPin size={32} />
-                  <span className="text-[10px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full">Actualité 2024</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full">{t('references.news2024')}</span>
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-[#0A2F73] group-hover:text-[#E64501] transition-colors">
-                    Ouverture d'un bureau à N’Djamena
+                    {t('references.ndjamenaTitle')}
                   </h3>
                   <p className="mt-3 text-sm text-[#0A2F73] font-medium leading-relaxed">
-                    Expansion stratégique en zone CEMAC pour accompagner les acteurs économiques tchadiens.
+                    {t('references.ndjamenaDesc')}
                   </p>
                   <div className="mt-6 flex items-center text-[#E64501] font-bold text-xs uppercase tracking-widest">
-                    Lire l'article <ArrowUpRight size={14} className="ml-2" />
+                    {t('references.readArticle')} <ArrowUpRight size={14} className="ml-2" />
                   </div>
                 </div>
               </motion.a>
