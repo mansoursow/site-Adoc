@@ -56,7 +56,7 @@ export function HeroSection() {
       "
     >
       {/* ================= BACKGROUND SLIDER ================= */}
-      <div className="absolute inset-0 z-0 min-w-full min-h-full">
+      <div className="absolute inset-0 z-0 min-w-full min-h-full bg-white">
         <AnimatePresence mode="wait">
           {current.type === 'video' ? (
             <motion.video
@@ -66,7 +66,7 @@ export function HeroSection() {
               muted
               loop
               playsInline
-              className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center"
+              className="absolute inset-0 w-full h-full min-w-full min-h-full object-contain md:object-cover object-center"
               initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 1.03 }}
               animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
               exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 1.01 }}
@@ -77,7 +77,7 @@ export function HeroSection() {
               key={`image-${index}`}
               src={current.src}
               alt="ADOC background"
-              className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center"
+              className="absolute inset-0 w-full h-full min-w-full min-h-full object-contain md:object-cover object-center"
               initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 1.03 }}
               animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
               exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 1.01 }}

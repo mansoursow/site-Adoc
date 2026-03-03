@@ -61,8 +61,64 @@ app.use((_req, res, next) => {
   next();
 });
 
-const SYSTEM_PROMPT = `Tu es l'expert fiscal d'ADOC. Ton rôle est d'aider les utilisateurs avec la fiscalité sénégalaise (CGI 2025). 
-Règles critiques : Plafond 5 parts, Art. 174 (10-45%), impôt max 43% du RNI.`;
+const SYSTEM_PROMPT = `Tu es l'expert fiscal et juridique d'ADOC.
+
+1) FISCALITÉ SÉNÉGALAISE
+- Tu aides en priorité sur la fiscalité sénégalaise (CGI).
+- Rappels critiques : plafond 5 parts, art. 174 (10-45%), impôt max 43% du RNI.
+
+2) DROIT DES AFFAIRES / OHADA
+- Tu peux aussi répondre sur le droit commercial général OHADA.
+
+3) RÉFÉRENCES OFFICIELLES À CITER
+- Pour le droit commercial général OHADA, renvoie vers : https://www.africa-laws.org/OHADA/ACTE%20UNIFORME%20R%C3%89VIS%C3%89%20PORTANT%20SUR%20LE%20DROIT%20COMMERCIAL%20G%C3%89N%C3%89RAL.pdf
+- Pour la fiscalité et le Code général des impôts sénégalais, renvoie vers : https://kof-experts.sn/wp-content/uploads/2024/04/CGI-annote-Janvier-2023.pdf
+
+Toujours :
+- Réponds en langage clair, structuré, et en français.
+- Lorsque tu cites le droit ou la fiscalité, mentionne les références d'articles (ex : "article 10 de l'Acte uniforme" ou "article 174 du CGI") et rappelle aux utilisateurs qu'ils peuvent consulter les textes officiels aux liens ci-dessus pour vérifier les détails.`;
+
+// ====== Chargement des corpus juridiques / fiscaux (OHADA + CGI) ======
+function loadJsonCorpus(filename) {
+  try {
+    const fullPath = path.join(__dirname, filename);
+    if (!fs.existsSync(fullPath)) return [];
+    const raw = fs.readFileSync(fullPath, 'utf-8');
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed;
+  } catch (e) {
+    console.warn(`[server] Impossible de charger le corpus ${filename}:`, e.message);
+    return [];
+  }
+}
+
+// Format attendu dans les fichiers JSON:
+// [{ "id": "art1", "titre": "Article 1", "texte": "Contenu..." }, ...]
+const OHADA_CORPUS = loadJsonCorpus('ohada-commercial.json');
+const CGI_CORPUS = loadJsonCorpus('cgi-annote.json');
+
+function simpleSearch(corpus, question, maxResults = 4) {
+  if (!Array.isArray(corpus) || !corpus.length || !question) return [];
+  const q = String(question || '').toLowerCase();
+  const words = q.split(/\s+/).filter(Boolean);
+  if (!words.length) return [];
+
+  const scored = corpus.map((doc) => {
+    const text = `${doc.titre || ''}\n${doc.texte || ''}`.toLowerCase();
+    let score = 0;
+    for (const w of words) {
+      if (text.includes(w)) score += 1;
+    }
+    return { doc, score };
+  });
+
+  return scored
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, maxResults)
+    .map((x) => x.doc);
+}
 
 /** Normalise les messages pour convertToModelMessages (parts + role obligatoires). */
 function normalizeMessages(messages) {
@@ -109,9 +165,47 @@ app.post('/api/chat', async (req, res) => {
       modelMessages = toSimpleModelMessages(normalized);
     }
 
+    // ===== Enrichissement avec les textes OHADA / CGI =====
+    const lastUser = [...modelMessages].reverse().find((m) => m.role === 'user');
+    const userQuestion = lastUser
+      ? String(lastUser.content || lastUser.text || '')
+      : '';
+
+    const ohadaHits = simpleSearch(OHADA_CORPUS, userQuestion, 4);
+    const cgiHits = simpleSearch(CGI_CORPUS, userQuestion, 4);
+
+    let contextBlocks = '';
+
+    if (ohadaHits.length) {
+      contextBlocks +=
+        '\n\n[EXTRAITS OHADA – Acte uniforme sur le droit commercial général]\n' +
+        ohadaHits
+          .map(
+            (a) =>
+              `${a.titre || ''}\n${a.texte || ''}\n---`
+          )
+          .join('\n');
+    }
+
+    if (cgiHits.length) {
+      contextBlocks +=
+        '\n\n[EXTRAITS CODE GÉNÉRAL DES IMPÔTS (CGI)]\n' +
+        cgiHits
+          .map(
+            (a) =>
+              `${a.titre || ''}\n${a.texte || ''}\n---`
+          )
+          .join('\n');
+    }
+
+    const finalSystemPrompt =
+      contextBlocks.trim().length > 0
+        ? `${SYSTEM_PROMPT}\n\nTu disposes des extraits suivants. Utilise-les en priorité pour répondre de manière précise et cite les articles lorsque c'est pertinent :\n${contextBlocks}`
+        : SYSTEM_PROMPT;
+
     const result = streamText({
       model: openai('gpt-4o-mini'),
-      system: SYSTEM_PROMPT,
+      system: finalSystemPrompt,
       messages: modelMessages,
     });
 
