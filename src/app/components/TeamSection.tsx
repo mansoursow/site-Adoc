@@ -219,6 +219,7 @@ function MemberCard({
 export function TeamSection() {
   const { t } = useTranslation();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [activeMobileIndex, setActiveMobileIndex] = useState(0);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -229,6 +230,14 @@ export function TeamSection() {
   }, []);
 
   const expandedMember = expandedIndex !== null ? ALL_MEMBERS[expandedIndex] : null;
+
+  const handlePrevMobile = () => {
+    setActiveMobileIndex((prev) => (prev - 1 + ALL_MEMBERS.length) % ALL_MEMBERS.length);
+  };
+
+  const handleNextMobile = () => {
+    setActiveMobileIndex((prev) => (prev + 1) % ALL_MEMBERS.length);
+  };
 
   return (
     <section id="team" className="py-20 bg-white overflow-hidden">
@@ -246,8 +255,77 @@ export function TeamSection() {
           </p>
         </motion.div>
 
-        {/* Structure pyramidale - flex flex-col items-center */}
-        <div className="flex flex-col items-center gap-12 md:gap-16">
+        {/* Version mobile : carrousel centré */}
+        <div className="block md:hidden">
+          <div className="flex flex-col items-center gap-6">
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#3F5F99]">
+              {t('team.title')}
+            </h3>
+            <div className="relative w-full flex justify-center">
+              <div className="flex gap-4 px-4">
+                {ALL_MEMBERS.map((member, index) => {
+                  const isActive = index === activeMobileIndex;
+                  const offset = Math.abs(index - activeMobileIndex);
+                  if (offset > 1) {
+                    return null;
+                  }
+                  return (
+                    <motion.div
+                      key={member.name}
+                      className="basis-64 shrink-0"
+                      animate={{
+                        scale: isActive ? 1 : 0.9,
+                        opacity: isActive ? 1 : 0.5,
+                      }}
+                      transition={{ type: 'spring', stiffness: 260, damping: 24 }}
+                    >
+                      <MemberCard
+                        member={member}
+                        size="lg"
+                        onClick={() => setExpandedIndex(index)}
+                      />
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-center justify-center gap-4">
+              <button
+                type="button"
+                onClick={handlePrevMobile}
+                className="w-9 h-9 rounded-full bg-[#E64501] flex items-center justify-center text-white shadow hover:scale-105 transition"
+              >
+                <span className="sr-only">Précédent</span>
+                <span className="text-lg">{'<'}</span>
+              </button>
+              <div className="flex gap-2">
+                {ALL_MEMBERS.map((_, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => setActiveMobileIndex(index)}
+                    className={`w-2.5 h-2.5 rounded-full ${
+                      index === activeMobileIndex ? 'bg-[#E64501]' : 'bg-gray-300'
+                    }`}
+                    aria-label={`Aller au membre ${index + 1}`}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={handleNextMobile}
+                className="w-9 h-9 rounded-full bg-[#E64501] flex items-center justify-center text-white shadow hover:scale-105 transition"
+              >
+                <span className="sr-only">Suivant</span>
+                <span className="text-lg">{'>'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Structure pyramidale - desktop/tablette */}
+        <div className="hidden md:flex flex-col items-center gap-12 md:gap-16">
           {/* Niveau 1 : Associés - 2 colonnes, max-w-2xl */}
           <div className="w-full flex flex-col items-center gap-6">
             <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[#3F5F99]">

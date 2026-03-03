@@ -14,13 +14,65 @@ import {
 } from 'recharts';
 
 type UnknownField = 'amount' | 'rate' | 'duration' | 'totalCost' | null;
+type CreditMode = 'inFine' | 'annuiteConstante' | 'amortissementConstant';
+type SolvedValues = { amount: number; rate: number; duration: number; totalCost: number };
 
 function parseNum(s: string): number {
   return Math.max(0, parseFloat(String(s).replace(/\s/g, '').replace(',', '.')) || 0);
 }
 
+function annuityFactor(rate: number, duration: number): number {
+  if (duration <= 0) return 0;
+  if (rate <= 0) return 0;
+  return (duration * rate) / (1 - Math.pow(1 + rate, -duration)) - 1;
+}
+
+function totalCostByMode(mode: CreditMode, amount: number, ratePct: number, duration: number): number {
+  const r = ratePct / 100;
+  if (amount <= 0 || duration <= 0 || r < 0) return 0;
+  if (mode === 'inFine') return amount * r * duration;
+  if (mode === 'annuiteConstante') {
+    const factor = annuityFactor(r, duration);
+    return amount * factor;
+  }
+  return amount * r * duration * (duration + 1) / 2;
+}
+
+function solveRateAnnuity(targetRatio: number, duration: number): number | null {
+  if (duration <= 0 || targetRatio < 0) return null;
+  if (targetRatio === 0) return 0;
+  let lo = 0;
+  let hi = 1;
+  const f = (r: number) => annuityFactor(r, duration);
+  while (f(hi) < targetRatio && hi < 100) hi *= 2;
+  if (f(hi) < targetRatio) return null;
+  for (let i = 0; i < 80; i++) {
+    const mid = (lo + hi) / 2;
+    if (f(mid) < targetRatio) lo = mid;
+    else hi = mid;
+  }
+  return ((lo + hi) / 2) * 100;
+}
+
+function solveDurationAnnuity(targetRatio: number, ratePct: number): number | null {
+  const r = ratePct / 100;
+  if (r <= 0 || targetRatio < 0) return null;
+  if (targetRatio === 0) return 0;
+  let lo = 0.1;
+  let hi = 100;
+  const f = (n: number) => annuityFactor(r, n);
+  if (f(hi) < targetRatio) return null;
+  for (let i = 0; i < 80; i++) {
+    const mid = (lo + hi) / 2;
+    if (f(mid) < targetRatio) lo = mid;
+    else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+
 export function CreditSimulator() {
   const { t } = useTranslation();
+  const [mode, setMode] = useState<CreditMode>('inFine');
   const [loanDate, setLoanDate] = useState(() => {
     const d = new Date();
     return d.toISOString().slice(0, 10);
@@ -37,72 +89,174 @@ export function CreditSimulator() {
   const durationNum = parseNum(duration);
   const totalCostNum = parseNum(totalCost);
 
-  const solved = useMemo(() => {
-    if (unknownField === 'amount' && rateNum > 0 && durationNum > 0 && totalCostNum >= 0) {
-      const k = totalCostNum / ((rateNum / 100) * durationNum);
-      return { amount: k, rate: rateNum, duration: durationNum, totalCost: totalCostNum };
-    }
-    if (unknownField === 'rate' && amountNum > 0 && durationNum > 0 && totalCostNum >= 0) {
-      const r = (totalCostNum / (amountNum * durationNum)) * 100;
-      return { amount: amountNum, rate: r, duration: durationNum, totalCost: totalCostNum };
-    }
-    if (unknownField === 'duration' && amountNum > 0 && rateNum > 0 && totalCostNum >= 0) {
-      const n = totalCostNum / (amountNum * (rateNum / 100));
-      return { amount: amountNum, rate: rateNum, duration: n, totalCost: totalCostNum };
-    }
-    if (unknownField === 'totalCost' && amountNum > 0 && rateNum >= 0 && durationNum > 0) {
-      const cost = amountNum * (rateNum / 100) * durationNum;
-      return { amount: amountNum, rate: rateNum, duration: durationNum, totalCost: cost };
-    }
-    return null;
-  }, [unknownField, amountNum, rateNum, durationNum, totalCostNum]);
+  const missingFields = useMemo<UnknownField[]>(() => {
+    const missing: UnknownField[] = [];
+    if (!amount.trim()) missing.push('amount');
+    if (!rate.trim()) missing.push('rate');
+    if (!duration.trim()) missing.push('duration');
+    if (!totalCost.trim()) missing.push('totalCost');
+    return missing;
+  }, [amount, rate, duration, totalCost]);
 
-  const inFineAmount = solved ? solved.amount + solved.totalCost : 0;
+  const solveForField = (
+    field: UnknownField,
+    modeValue: CreditMode,
+    a: number,
+    rPct: number,
+    d: number,
+    c: number
+  ): SolvedValues | null => {
+    if (!field) return null;
+    const r = rPct / 100;
+
+    if (field === 'totalCost') {
+      if (a > 0 && d > 0 && r >= 0) {
+        return { amount: a, rate: rPct, duration: d, totalCost: totalCostByMode(modeValue, a, rPct, d) };
+      }
+      return null;
+    }
+
+    if (field === 'amount') {
+      if (d <= 0 || c < 0) return null;
+      if (modeValue === 'inFine') {
+        const denom = r * d;
+        if (denom <= 0) return null;
+        const k = c / denom;
+        return { amount: k, rate: rPct, duration: d, totalCost: c };
+      }
+      if (modeValue === 'annuiteConstante') {
+        const factor = annuityFactor(r, d);
+        if (factor <= 0) return null;
+        const k = c / factor;
+        return { amount: k, rate: rPct, duration: d, totalCost: c };
+      }
+      const denom = r * d * (d + 1) / 2;
+      if (denom <= 0) return null;
+      const k = c / denom;
+      return { amount: k, rate: rPct, duration: d, totalCost: c };
+    }
+
+    if (field === 'rate') {
+      if (a <= 0 || d <= 0 || c < 0) return null;
+      if (modeValue === 'inFine') {
+        const rSolved = (c / (a * d)) * 100;
+        return { amount: a, rate: rSolved, duration: d, totalCost: c };
+      }
+      if (modeValue === 'annuiteConstante') {
+        const ratio = c / a;
+        const rSolved = solveRateAnnuity(ratio, d);
+        if (rSolved === null) return null;
+        return { amount: a, rate: rSolved, duration: d, totalCost: c };
+      }
+      const denom = a * d * (d + 1) / 2;
+      if (denom <= 0) return null;
+      const rSolved = (c / denom) * 100;
+      return { amount: a, rate: rSolved, duration: d, totalCost: c };
+    }
+
+    if (field === 'duration') {
+      if (a <= 0 || c < 0 || r <= 0) return null;
+      if (modeValue === 'inFine') {
+        const n = c / (a * r);
+        return n > 0 ? { amount: a, rate: rPct, duration: n, totalCost: c } : null;
+      }
+      if (modeValue === 'annuiteConstante') {
+        const ratio = c / a;
+        const n = solveDurationAnnuity(ratio, rPct);
+        if (n === null || n <= 0) return null;
+        return { amount: a, rate: rPct, duration: n, totalCost: c };
+      }
+      const x = (2 * c) / (a * r);
+      const disc = 1 + 4 * x;
+      if (disc < 0) return null;
+      const n = (-1 + Math.sqrt(disc)) / 2;
+      return n > 0 ? { amount: a, rate: rPct, duration: n, totalCost: c } : null;
+    }
+
+    return null;
+  };
+
+  const solved = useMemo(() => {
+    return solveForField(unknownField, mode, amountNum, rateNum, durationNum, totalCostNum);
+  }, [unknownField, mode, amountNum, rateNum, durationNum, totalCostNum]);
+
+  const totalRepayment = solved ? solved.amount + solved.totalCost : 0;
   const hasResult = solved !== null && solved.duration > 0;
+  const periodicPayment = useMemo(() => {
+    if (!solved || mode !== 'annuiteConstante') return 0;
+    const r = solved.rate / 100;
+    if (r <= 0) return solved.amount / solved.duration;
+    return solved.amount * (r / (1 - Math.pow(1 + r, -solved.duration)));
+  }, [solved, mode]);
+  const firstPayment = useMemo(() => {
+    if (!solved || mode !== 'amortissementConstant') return 0;
+    const n = solved.duration;
+    if (n <= 0) return 0;
+    return solved.amount / n + solved.amount * (solved.rate / 100);
+  }, [solved, mode]);
 
   const chartData = useMemo(() => {
     if (!solved || solved.duration <= 0) return [];
     const rows: { name: string; interest: number; principal: number }[] = [];
-    const annualInterest = solved.amount * (solved.rate / 100);
-    const n = Math.floor(solved.duration);
+    const n = Math.max(1, Math.round(solved.duration));
+    const r = solved.rate / 100;
+
+    if (mode === 'inFine') {
+      const annualInterest = solved.amount * r;
+      for (let y = 1; y <= n; y++) {
+        rows.push({
+          name: t('credit.yearLabel', { year: y }),
+          interest: Math.round(annualInterest * 100) / 100,
+          principal: y === n ? Math.round(solved.amount * 100) / 100 : 0,
+        });
+      }
+      return rows;
+    }
+
+    if (mode === 'annuiteConstante') {
+      let remaining = solved.amount;
+      const annuity = r <= 0
+        ? solved.amount / n
+        : solved.amount * (r / (1 - Math.pow(1 + r, -n)));
+      for (let y = 1; y <= n; y++) {
+        const interest = remaining * r;
+        let principal = annuity - interest;
+        if (y === n) principal = remaining;
+        remaining = Math.max(0, remaining - principal);
+        rows.push({
+          name: t('credit.yearLabel', { year: y }),
+          interest: Math.round(interest * 100) / 100,
+          principal: Math.round(principal * 100) / 100,
+        });
+      }
+      return rows;
+    }
+
+    let remaining = solved.amount;
+    const principalConst = solved.amount / n;
     for (let y = 1; y <= n; y++) {
+      const interest = remaining * r;
+      const principal = y === n ? remaining : principalConst;
+      remaining = Math.max(0, remaining - principal);
       rows.push({
         name: t('credit.yearLabel', { year: y }),
-        interest: Math.round(annualInterest * 100) / 100,
-        principal: 0,
-      });
-    }
-    if (solved.duration >= 1) {
-      rows[rows.length - 1].principal = Math.round(solved.amount * 100) / 100;
-    } else {
-      rows.push({
-        name: t('credit.yearLabel', { year: 1 }),
-        interest: Math.round((solved.amount * (solved.rate / 100) * solved.duration) * 100) / 100,
-        principal: Math.round(solved.amount * 100) / 100,
+        interest: Math.round(interest * 100) / 100,
+        principal: Math.round(principal * 100) / 100,
       });
     }
     return rows;
-  }, [solved, t]);
+  }, [solved, t, mode]);
 
-  const handleSolve = (field: UnknownField) => {
+  const handleSolve = () => {
+    const field = missingFields.length === 1 ? missingFields[0] : unknownField;
     if (!field) return;
+    const solvedNow = solveForField(field, mode, amountNum, rateNum, durationNum, totalCostNum);
+    if (!solvedNow) return;
     setUnknownField(field);
-    if (field === 'amount' && rateNum > 0 && durationNum > 0 && totalCostNum >= 0) {
-      const k = totalCostNum / ((rateNum / 100) * durationNum);
-      setAmount(k.toLocaleString('fr-FR', { maximumFractionDigits: 0 }));
-    }
-    if (field === 'rate' && amountNum > 0 && durationNum > 0 && totalCostNum >= 0) {
-      const r = (totalCostNum / (amountNum * durationNum)) * 100;
-      setRate(r.toFixed(2));
-    }
-    if (field === 'duration' && amountNum > 0 && rateNum > 0 && totalCostNum >= 0) {
-      const n = totalCostNum / (amountNum * (rateNum / 100));
-      setDuration(n.toFixed(2));
-    }
-    if (field === 'totalCost' && amountNum > 0 && rateNum >= 0 && durationNum > 0) {
-      const cost = amountNum * (rateNum / 100) * durationNum;
-      setTotalCost(cost.toLocaleString('fr-FR', { maximumFractionDigits: 0 }));
-    }
+    if (field === 'amount') setAmount(solvedNow.amount.toLocaleString('fr-FR', { maximumFractionDigits: 0 }));
+    if (field === 'rate') setRate(solvedNow.rate.toFixed(2));
+    if (field === 'duration') setDuration(solvedNow.duration.toFixed(2));
+    if (field === 'totalCost') setTotalCost(solvedNow.totalCost.toLocaleString('fr-FR', { maximumFractionDigits: 0 }));
   };
 
   const formatDate = (iso: string) => {
@@ -121,6 +275,34 @@ export function CreditSimulator() {
             <h3 className="text-xl font-black text-[#0A2F73]">{t('credit.title')}</h3>
           </div>
           <p className="text-xs text-gray-500 mb-6">{t('credit.hint')}</p>
+          <div className="mb-5">
+            <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">
+              {t('credit.modeLabel')}
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {[
+                { value: 'inFine' as const, label: t('credit.modeInFine') },
+                { value: 'annuiteConstante' as const, label: t('credit.modeAnnuity') },
+                { value: 'amortissementConstant' as const, label: t('credit.modeConstantAmort') },
+              ].map((m) => (
+                <button
+                  key={m.value}
+                  type="button"
+                  onClick={() => {
+                    setMode(m.value);
+                    setUnknownField(null);
+                  }}
+                  className={`px-3 py-2 rounded-xl text-xs font-black uppercase tracking-wide border transition-all ${
+                    mode === m.value
+                      ? 'bg-[#0A2F73] text-white border-[#0A2F73]'
+                      : 'bg-white text-[#0A2F73] border-slate-200 hover:border-[#0A2F73]/40'
+                  }`}
+                >
+                  {m.label}
+                </button>
+              ))}
+            </div>
+          </div>
 
           <div className="space-y-5">
             <div>
@@ -174,31 +356,30 @@ export function CreditSimulator() {
                 <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">
                   {label}
                 </label>
-                <div className="flex gap-2">
-                  <div className="relative flex-1">
-                    <input
-                      type="text"
-                      inputMode="decimal"
-                      value={value}
-                      onChange={(e) => { setValue(e.target.value); setUnknownField(null); }}
-                      placeholder={placeholder}
-                      className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-4 rounded-2xl font-bold outline-none transition-all"
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-slate-300 text-sm">
-                      {suffix}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleSolve(key)}
-                    className="shrink-0 px-5 py-4 rounded-2xl bg-[#0A2F73] text-white font-black text-sm hover:bg-[#E64501] transition-all uppercase tracking-wider"
-                    title={t('credit.calcButtonTitle')}
-                  >
-                    {t('credit.calc')}
-                  </button>
+                <div className="relative">
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    value={value}
+                    onChange={(e) => { setValue(e.target.value); setUnknownField(null); }}
+                    placeholder={placeholder}
+                    className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-4 rounded-2xl font-bold outline-none transition-all"
+                  />
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-slate-300 text-sm">
+                    {suffix}
+                  </span>
                 </div>
               </div>
             ))}
+            <button
+              type="button"
+              onClick={handleSolve}
+              disabled={missingFields.length !== 1}
+              className="w-full px-5 py-4 rounded-2xl bg-[#0A2F73] text-white font-black text-sm hover:bg-[#E64501] transition-all uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
+              title={t('credit.calcButtonTitle')}
+            >
+              {t('credit.calc')}
+            </button>
           </div>
         </div>
 
@@ -231,10 +412,28 @@ export function CreditSimulator() {
                     <span className="text-white/60">{t('credit.totalCost')}</span>
                     <span className="font-black">{solved.totalCost.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} {currency}</span>
                   </div>
+                  <div className="flex justify-between items-baseline">
+                    <span className="text-white/60">{t('credit.totalRepayment')}</span>
+                    <span className="font-black">{totalRepayment.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} {currency}</span>
+                  </div>
+                  {mode === 'annuiteConstante' && (
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-white/60">{t('credit.periodicPayment')}</span>
+                      <span className="font-black">{periodicPayment.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} {currency}</span>
+                    </div>
+                  )}
+                  {mode === 'amortissementConstant' && (
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-white/60">{t('credit.firstPayment')}</span>
+                      <span className="font-black">{firstPayment.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} {currency}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between items-baseline pt-2 border-t border-white/20">
-                    <span className="text-[#E64501] font-black">{t('credit.inFineAmount')}</span>
+                    <span className="text-[#E64501] font-black">
+                      {mode === 'inFine' ? t('credit.inFineAmount') : t('credit.totalRepayment')}
+                    </span>
                     <span className="font-black text-[#E64501] text-xl">
-                      {inFineAmount.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} {currency}
+                      {totalRepayment.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} {currency}
                     </span>
                   </div>
                 </div>

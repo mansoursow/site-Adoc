@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Calculator, X, Clock, TrendingUp, Info, 
-  Coins, BarChart3, Percent, Activity 
+  Coins, BarChart3, Percent, Activity, Scale 
 } from 'lucide-react';
 import { SalarySimulator } from '@/app/components/SalarySimulator';
 import { TaxCalculator } from '@/app/components/TaxCalculator';
@@ -14,6 +14,7 @@ import { AmortissementSimulator } from '@/app/components/AmortissementSimulator'
 import { TEGTAEGSimulator } from '@/app/components/TEGTAEGSimulator';
 import { CreditSimulator } from '@/app/components/CreditSimulator';
 import { RatioSimulator } from '@/app/components/RatioSimulator';
+import { QuorumSimulator } from '@/app/components/QuorumSimulator';
 
 import image7 from '@/assets/gallery-cabinet/image7.jpg';
 
@@ -181,7 +182,7 @@ function FiscalCalendar({ months }: { months: any[] }) {
 // ===================== PAGE PRINCIPALE =====================
 export function PublicationsPage() {
   const { t } = useTranslation();
-  const [activeTool, setActiveTool] = useState<'salary' | 'tax' | 'amortissement' | 'tegtaeg' | 'credit' | 'ratios' | null>(null);
+  const [activeTool, setActiveTool] = useState<'salary' | 'tax' | 'amortissement' | 'tegtaeg' | 'credit' | 'ratios' | 'quorum' | null>(null);
   const [searchParams] = useSearchParams();
   const location = useLocation();
 
@@ -194,6 +195,7 @@ export function PublicationsPage() {
     if (tool === 'tegtaeg' || hash === 'tegtaeg') setActiveTool('tegtaeg');
     if (tool === 'credit' || hash === 'credit') setActiveTool('credit');
     if (tool === 'ratios' || hash === 'ratios') setActiveTool('ratios');
+    if (tool === 'quorum' || hash === 'quorum') setActiveTool('quorum');
     if (hash && !['paie', 'impot'].includes(hash)) {
       const el = document.getElementById(hash);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -262,6 +264,11 @@ export function PublicationsPage() {
                   <Activity size={32} className="text-[#0A2F73] mb-6" />
                   <div className="font-black text-[#0A2F73] text-xl">{t('publications.ratioSimulator')}</div>
                 </motion.div>
+                
+                <motion.div whileHover={{ y: -8 }} onClick={() => setActiveTool('quorum')} className="rounded-[2rem] p-8 bg-[#EFF6FF] border-2 border-dashed border-[#0A2F73]/30 cursor-pointer group">
+                  <Scale size={32} className="text-[#0A2F73] mb-6" />
+                  <div className="font-black text-[#0A2F73] text-xl">{t('publications.quorumSimulator')}</div>
+                </motion.div>
              </div>
           </div>
         </div>
@@ -271,11 +278,23 @@ export function PublicationsPage() {
         {activeTool && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setActiveTool(null)} className="absolute inset-0 bg-[#0A2F73]/80 backdrop-blur-sm" />
-            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} onClick={(e) => e.stopPropagation()} className={`relative w-full bg-white rounded-[2.5rem] shadow-2xl max-h-[90vh] overflow-hidden flex flex-col ${(activeTool === 'tegtaeg' || activeTool === 'amortissement' || activeTool === 'credit' || activeTool === 'ratios') ? 'max-w-5xl' : 'max-w-4xl'}`}>
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} onClick={(e) => e.stopPropagation()} className={`relative w-full bg-white rounded-[2.5rem] shadow-2xl max-h-[90vh] overflow-hidden flex flex-col ${(activeTool === 'tegtaeg' || activeTool === 'amortissement' || activeTool === 'credit' || activeTool === 'ratios' || activeTool === 'quorum') ? 'max-w-5xl' : 'max-w-4xl'}`}>
               
               <div className="p-6 border-b flex justify-between items-center bg-white z-10">
                 <h2 className="text-xl font-black text-[#0A2F73]">
-                    {activeTool === 'salary' ? t('publications.modalSalary') : activeTool === 'tax' ? t('publications.modalTax') : activeTool === 'amortissement' ? t('publications.modalAmortissement') : activeTool === 'tegtaeg' ? t('publications.modalTEGTAEG') : activeTool === 'credit' ? t('publications.modalCredit') : t('publications.modalRatios')}
+                    {activeTool === 'salary'
+                      ? t('publications.modalSalary')
+                      : activeTool === 'tax'
+                        ? t('publications.modalTax')
+                        : activeTool === 'amortissement'
+                          ? t('publications.modalAmortissement')
+                          : activeTool === 'tegtaeg'
+                            ? t('publications.modalTEGTAEG')
+                            : activeTool === 'credit'
+                              ? t('publications.modalCredit')
+                              : activeTool === 'ratios'
+                                ? t('publications.modalRatios')
+                                : t('publications.modalQuorum')}
                 </h2>
                 <button type="button" onClick={() => setActiveTool(null)} className="p-2 hover:bg-gray-100 rounded-full"><X size={24} className="text-[#0A2F73]" /></button>
               </div>
@@ -287,6 +306,7 @@ export function PublicationsPage() {
                  {activeTool === 'tegtaeg' && <TEGTAEGSimulator />}
                  {activeTool === 'credit' && <CreditSimulator />}
                  {activeTool === 'ratios' && <RatioSimulator />}
+                 {activeTool === 'quorum' && <QuorumSimulator />}
               </div>
             </motion.div>
           </div>

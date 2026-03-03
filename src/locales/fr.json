@@ -237,7 +237,9 @@
     "tegtaegSimulator": "TEG / TAEG",
     "modalTEGTAEG": "TEG / TAEG - Taux effectif global",
     "creditSimulator": "Simulateur de crédit",
-    "modalCredit": "Simulation de crédit In Fine",
+    "quorumSimulator": "Quorums & majorités SA",
+    "modalCredit": "Simulation de crédit",
+    "modalQuorum": "Quorums & majorités des SA",
     "ratioSimulator": "Ratios de diagnostic financier",
     "modalRatios": "Ratios usuels - Diagnostic financier & rentabilité"
   },
@@ -289,8 +291,12 @@
     "waiting": "Renseignez les champs et cliquez sur Calculer"
   },
   "credit": {
-    "title": "Simulation de crédit (In Fine)",
-    "hint": "Renseignez trois valeurs puis cliquez sur le bouton devant la zone à calculer pour obtenir la quatrième.",
+    "title": "Simulation de crédit",
+    "hint": "Renseignez trois valeurs puis cliquez sur Calculer pour obtenir la quatrième.",
+    "modeLabel": "Mode de remboursement",
+    "modeInFine": "In Fine",
+    "modeAnnuity": "Annuité constante",
+    "modeConstantAmort": "Amortissement constant",
     "loanDate": "Date d'emprunt",
     "dateFormat": "JJ/MM/AAAA",
     "amount": "Montant emprunté",
@@ -298,6 +304,9 @@
     "duration": "Durée",
     "years": "ans",
     "totalCost": "Coût total du crédit",
+    "totalRepayment": "Montant total remboursé",
+    "periodicPayment": "Annuité constante",
+    "firstPayment": "1er paiement",
     "inFineAmount": "Montant In Fine (capital + intérêts)",
     "currency": "FCFA",
     "calc": "Calculer",
@@ -309,7 +318,46 @@
     "colInterest": "Intérêts",
     "colPrincipal": "Capital remboursé",
     "yearLabel": "Année {{year}}",
-    "waiting": "Renseignez trois valeurs et cliquez sur Calculer devant la quatrième."
+    "waiting": "Renseignez trois valeurs puis cliquez sur Calculer."
+  },
+  "quorum": {
+    "title": "Quorums & majorités des SA",
+    "hint": "Sélectionnez le type d'assemblée et la convocation, puis renseignez le nombre total d'actions, les actions présentes et les voix « pour ».",
+    "assemblyType": "Type d'assemblée",
+    "assembly": {
+      "constitutive": "AG constitutive",
+      "ago": "AGO",
+      "age": "AGE",
+      "special": "Assemblée spéciale"
+    },
+    "convocation": "Convocation",
+    "convocations": {
+      "c1": "1ère convocation",
+      "c2": "2ème convocation",
+      "c3": "3ème convocation"
+    },
+    "specialDecision": "Décision de réduction de capital ou de modification des statuts (AG constitutive) – unanimité requise.",
+    "totalShares": "Nombre total d'actions",
+    "presentShares": "Actions présentes ou représentées",
+    "votesFor": "Voix « pour » la résolution",
+    "calc": "Calculer",
+    "quorumTitle": "Quorum",
+    "noQuorumRule": "Pas de règle de quorum : l'assemblée peut délibérer quel que soit le nombre d'actions présentes.",
+    "quorumRule": "Quorum requis : au moins {{percent}} % des actions",
+    "quorumDetail": "Minimum requis : {{required}} actions · Présentes : {{present}} actions",
+    "quorumOk": "Quorum atteint : l’assemblée peut valablement délibérer.",
+    "quorumFail": "Quorum non atteint : l’assemblée ne peut pas statuer.",
+    "majorityTitle": "Majorité",
+    "majorityUnanimity": "Majorité requise : unanimité des voix présentes.",
+    "majorityTwoThirds": "Majorité requise : au moins 2/3 des voix présentes.",
+    "majoritySimple": "Majorité requise : plus de la moitié des voix présentes.",
+    "majorityDetail": "Voix requises : {{required}} · Voix « pour » : {{votes}}",
+    "majorityOk": "Majorité atteinte : la résolution peut être adoptée.",
+    "majorityFail": "Majorité non atteinte : la résolution est rejetée.",
+    "summaryTitle": "Synthèse",
+    "summaryNoQuorum": "Quorum non atteint : convoquer une nouvelle assemblée.",
+    "summaryAllOk": "Quorum et majorité atteints : la résolution est adoptable.",
+    "summaryNoMajority": "Quorum atteint mais majorité non atteinte : la résolution est rejetée."
   },
   "ratios": {
     "title": "Ratios usuels - Diagnostic financier & rentabilité",

@@ -237,7 +237,9 @@
     "tegtaegSimulator": "TEG / APR",
     "modalTEGTAEG": "TEG / APR - Effective interest rate",
     "creditSimulator": "Credit simulator",
-    "modalCredit": "In Fine credit simulation",
+    "quorumSimulator": "SA quorums & majorities",
+    "modalCredit": "Credit simulation",
+    "modalQuorum": "SA quorums & majorities",
     "ratioSimulator": "Financial diagnostic ratios",
     "modalRatios": "Usual ratios - Financial diagnostic & profitability"
   },
@@ -289,8 +291,12 @@
     "waiting": "Fill in the fields and click Calculate"
   },
   "credit": {
-    "title": "Credit simulation (In Fine)",
-    "hint": "Enter three values then click the button in front of the field to calculate the fourth.",
+    "title": "Credit simulation",
+    "hint": "Enter three values, then click Calculate to get the fourth.",
+    "modeLabel": "Repayment mode",
+    "modeInFine": "In Fine",
+    "modeAnnuity": "Constant annuity",
+    "modeConstantAmort": "Constant amortization",
     "loanDate": "Loan date",
     "dateFormat": "DD/MM/YYYY",
     "amount": "Borrowed amount",
@@ -298,6 +304,9 @@
     "duration": "Duration",
     "years": "years",
     "totalCost": "Total cost of credit",
+    "totalRepayment": "Total repaid amount",
+    "periodicPayment": "Constant annuity",
+    "firstPayment": "First payment",
     "inFineAmount": "In Fine amount (principal + interest)",
     "currency": "FCFA",
     "calc": "Calculate",
@@ -309,7 +318,46 @@
     "colInterest": "Interest",
     "colPrincipal": "Principal repaid",
     "yearLabel": "Year {{year}}",
-    "waiting": "Enter three values and click Calculate in front of the fourth."
+    "waiting": "Enter three values, then click Calculate."
+  },
+  "quorum": {
+    "title": "SA quorums & majorities",
+    "hint": "Select the type of meeting and the convocation, then enter the total number of shares, the shares present and the votes in favour.",
+    "assemblyType": "Type of meeting",
+    "assembly": {
+      "constitutive": "Constitutive GM",
+      "ago": "Ordinary GM (AGO)",
+      "age": "Extraordinary GM (AGE)",
+      "special": "Special meeting"
+    },
+    "convocation": "Convocation",
+    "convocations": {
+      "c1": "1st convocation",
+      "c2": "2nd convocation",
+      "c3": "3rd convocation"
+    },
+    "specialDecision": "Decision on capital reduction or articles of association (constitutive GM) – unanimity required.",
+    "totalShares": "Total number of shares",
+    "presentShares": "Shares present or represented",
+    "votesFor": "Votes in favour of the resolution",
+    "calc": "Calculate",
+    "quorumTitle": "Quorum",
+    "noQuorumRule": "No quorum rule: the meeting may deliberate regardless of the number of shares present.",
+    "quorumRule": "Required quorum: at least {{percent}} % of shares",
+    "quorumDetail": "Minimum required: {{required}} shares · Present: {{present}} shares",
+    "quorumOk": "Quorum met: the meeting can validly deliberate.",
+    "quorumFail": "Quorum not met: the meeting cannot deliberate.",
+    "majorityTitle": "Majority",
+    "majorityUnanimity": "Required majority: unanimity of votes present.",
+    "majorityTwoThirds": "Required majority: at least 2/3 of votes present.",
+    "majoritySimple": "Required majority: more than half of votes present.",
+    "majorityDetail": "Votes required: {{required}} · Votes in favour: {{votes}}",
+    "majorityOk": "Majority met: the resolution can be adopted.",
+    "majorityFail": "Majority not met: the resolution is rejected.",
+    "summaryTitle": "Summary",
+    "summaryNoQuorum": "Quorum not met: a new meeting must be convened.",
+    "summaryAllOk": "Quorum and majority met: the resolution can be adopted.",
+    "summaryNoMajority": "Quorum met but majority not met: the resolution is rejected."
   },
   "ratios": {
     "title": "Usual ratios - Financial diagnostic & profitability",
