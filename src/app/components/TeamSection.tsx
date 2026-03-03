@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'motion/react';
 import { Linkedin, Mail, X } from 'lucide-react';
@@ -220,6 +220,8 @@ export function TeamSection() {
   const { t } = useTranslation();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [activeMobileIndex, setActiveMobileIndex] = useState(0);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchEndXRef = useRef<number | null>(null);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -261,7 +263,34 @@ export function TeamSection() {
             <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#3F5F99]">
               {t('team.title')}
             </h3>
-            <div className="relative w-full flex justify-center">
+            <div
+              className="relative w-full flex justify-center"
+              onTouchStart={(e) => {
+                const touch = e.changedTouches[0];
+                touchStartXRef.current = touch.clientX;
+                touchEndXRef.current = null;
+              }}
+              onTouchMove={(e) => {
+                const touch = e.changedTouches[0];
+                touchEndXRef.current = touch.clientX;
+              }}
+              onTouchEnd={() => {
+                if (
+                  touchStartXRef.current !== null &&
+                  touchEndXRef.current !== null
+                ) {
+                  const delta = touchStartXRef.current - touchEndXRef.current;
+                  const threshold = 40;
+                  if (delta > threshold) {
+                    handleNextMobile();
+                  } else if (delta < -threshold) {
+                    handlePrevMobile();
+                  }
+                }
+                touchStartXRef.current = null;
+                touchEndXRef.current = null;
+              }}
+            >
               <div className="flex gap-4 px-4">
                 {ALL_MEMBERS.map((member, index) => {
                   const isActive = index === activeMobileIndex;
@@ -383,7 +412,7 @@ export function TeamSection() {
       <AnimatePresence>
         {expandedMember && expandedIndex !== null && (
           <motion.div
-            className="fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-8"
+          className="fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-8 overflow-y-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -395,7 +424,7 @@ export function TeamSection() {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.98, y: 8, opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-white/30"
+              className="relative w-full max-w-5xl max-h-[90vh] bg-white rounded-3xl shadow-2xl overflow-hidden border border-white/30"
               onClick={(e) => e.stopPropagation()}
             >
               <button
@@ -407,7 +436,7 @@ export function TeamSection() {
                 <X size={20} />
               </button>
 
-              <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 h-full">
                 <div className="relative h-[280px] sm:h-[360px] md:h-[480px] min-h-0">
                   <img
                     src={expandedMember.image}
