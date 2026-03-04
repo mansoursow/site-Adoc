@@ -108,7 +108,7 @@ export function CarrieresPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-[#0A2F73] uppercase mb-1">Email *</label>
+                      <label className="block text-xs font-bold text-[#0A2F73] uppercase mb-1">{t('carrieres.emailLabel')} *</label>
                       <input required type="email" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#0A2F73] outline-none transition" placeholder={t('carrieres.emailPlaceholder')} />
                     </div>
 

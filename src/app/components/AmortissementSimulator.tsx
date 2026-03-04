@@ -154,7 +154,7 @@ export function AmortissementSimulator() {
                   inputMode="decimal"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Ex: 100000"
+                  placeholder={t('amortissement.placeholderAmount')}
                   className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-4 rounded-2xl font-black text-xl outline-none transition-all"
                 />
                 <span className="absolute right-5 top-1/2 -translate-y-1/2 font-black text-slate-300">{t('amortissement.currency')}</span>

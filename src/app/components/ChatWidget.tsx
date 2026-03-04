@@ -382,7 +382,7 @@ export function ChatWidget() {
                   resetFlow();
                 }}
                 className="p-2 -mr-2 hover:bg-white/10 rounded-full transition-colors"
-                aria-label="Fermer"
+                aria-label={t('publications.closeAria')}
               >
                 <X size={20} />
               </button>
@@ -484,11 +484,11 @@ export function ChatWidget() {
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder={
                     formStep === 'name'
-                      ? 'Ex: Jean Dupont'
+                      ? t('publications.formPlaceholderName')
                       : formStep === 'phone'
-                        ? 'Ex: +221 77 123 45 67'
+                        ? t('publications.formPlaceholderPhone')
                         : formStep === 'email'
-                          ? 'votre@email.com'
+                          ? t('publications.formPlaceholderEmail')
                           : t('publications.chatbotInputPlaceholder')
                   }
                   className="flex-1 min-h-[44px] px-4 py-3 bg-slate-50 rounded-xl outline-none border border-transparent focus:border-[#0A2F73]/30 text-[#0A2F73] text-base placeholder:text-gray-400 transition-colors"

@@ -47,7 +47,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h4 className="mb-1">{t('contact.phone')}</h4>
-                  <p className="text-gray-300">+221 33 859 09 49</p>
+                  <p className="text-gray-300">{t('contact.phoneValue')}</p>
                 </div>
               </div>
               
@@ -57,7 +57,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h4 className="mb-1">{t('contact.email')}</h4>
-                  <p className="text-gray-300">contact@adoc-audit.fr</p>
+                  <p className="text-gray-300">{t('contact.emailValue')}</p>
                 </div>
               </div>
               

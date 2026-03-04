@@ -150,7 +150,7 @@ export function QuorumSimulator() {
                 value={totalShares}
                 onChange={(e) => { setTotalShares(e.target.value); setHasCalculated(false); }}
                 className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-3 rounded-2xl font-bold outline-none transition-all"
-                placeholder="10000"
+                placeholder={t('quorum.placeholderTotal')}
               />
             </div>
             <div>
@@ -163,7 +163,7 @@ export function QuorumSimulator() {
                 value={presentShares}
                 onChange={(e) => { setPresentShares(e.target.value); setHasCalculated(false); }}
                 className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-3 rounded-2xl font-bold outline-none transition-all"
-                placeholder="7500"
+                placeholder={t('quorum.placeholderPresent')}
               />
             </div>
             <div>
@@ -176,7 +176,7 @@ export function QuorumSimulator() {
                 value={votesFor}
                 onChange={(e) => { setVotesFor(e.target.value); setHasCalculated(false); }}
                 className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-3 rounded-2xl font-bold outline-none transition-all"
-                placeholder="6000"
+                placeholder={t('quorum.placeholderVotes')}
               />
             </div>
           </div>

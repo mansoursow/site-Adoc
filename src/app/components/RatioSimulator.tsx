@@ -102,7 +102,7 @@ export function RatioSimulator() {
                   inputMode="decimal"
                   value={input1}
                   onChange={(e) => setInput1(e.target.value)}
-                  placeholder="0"
+                  placeholder={t('ratios.placeholderNumber')}
                   className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-4 rounded-2xl font-bold outline-none transition-all"
                 />
                 <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-slate-300 text-sm">
@@ -120,7 +120,7 @@ export function RatioSimulator() {
                   inputMode="decimal"
                   value={input2}
                   onChange={(e) => setInput2(e.target.value)}
-                  placeholder="0"
+                  placeholder={t('ratios.placeholderNumber')}
                   className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-4 rounded-2xl font-bold outline-none transition-all"
                 />
                 <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-slate-300 text-sm">

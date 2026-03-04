@@ -61,6 +61,17 @@ export function Header() {
             { nameKey: 'nav.calculatorTax', to: '/publications#impot', icon: Calculator },
             { nameKey: 'nav.simulatorTEG', to: '/publications#tegtaeg', icon: Percent },
             { nameKey: 'nav.ratios', to: '/publications#ratios', icon: Percent },
+            { nameKey: 'nav.simulatorLicenciement', to: '/publications#licenciement', icon: Calculator },
+            { nameKey: 'nav.simulatorFinCDD', to: '/publications#findcdd', icon: Calculator },
+          ],
+        },
+        {
+          labelKey: 'nav.publicationsSection',
+          icon: Calendar,
+          items: [
+            { nameKey: 'nav.technicalNotes', to: '/publications#quitus', icon: Calendar },
+            { nameKey: 'nav.codeInvestissements', to: '/publications#code-investissements', icon: Calendar },
+            { nameKey: 'nav.startupAct', to: '/publications#startup-act', icon: Calendar },
           ],
         },
       ],
@@ -105,7 +116,7 @@ export function Header() {
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
-            <img src={logo} alt="ADOC Consulting" className="h-10 md:h-12 w-auto" />
+            <img src={logo} alt={t('nav.logoAlt')} className="h-10 md:h-12 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -168,9 +179,9 @@ export function Header() {
             })}
 
             <div className="ml-2 flex items-center gap-2">
-              <button type="button" onClick={() => setLang('fr')} className={`px-2 py-1 rounded text-sm font-bold ${i18n.language === 'fr' ? 'bg-[#0A2F73] text-white' : 'text-[#0A2F73] hover:bg-gray-100'}`} aria-label="Français">FR</button>
+              <button type="button" onClick={() => setLang('fr')} className={`px-2 py-1 rounded text-sm font-bold ${i18n.language === 'fr' ? 'bg-[#0A2F73] text-white' : 'text-[#0A2F73] hover:bg-gray-100'}`} aria-label={t('nav.langFr')}>FR</button>
               <span className="text-gray-300">|</span>
-              <button type="button" onClick={() => setLang('en')} className={`px-2 py-1 rounded text-sm font-bold ${i18n.language === 'en' ? 'bg-[#0A2F73] text-white' : 'text-[#0A2F73] hover:bg-gray-100'}`} aria-label="English">EN</button>
+              <button type="button" onClick={() => setLang('en')} className={`px-2 py-1 rounded text-sm font-bold ${i18n.language === 'en' ? 'bg-[#0A2F73] text-white' : 'text-[#0A2F73] hover:bg-gray-100'}`} aria-label={t('nav.langEn')}>EN</button>
             </div>
             <Link to="/contact" className="ml-2 inline-flex items-center justify-center rounded-xl px-6 py-2.5 font-bold transition border bg-[#0A2F73] text-white border-[#0A2F73] hover:bg-[#E64501] hover:border-[#E64501] shadow-lg shadow-blue-900/10">
               {t('nav.contactUs')}
@@ -178,7 +189,7 @@ export function Header() {
           </nav>
 
           {/* Mobile Menu Button */}
-          <button type="button" onClick={() => setIsMenuOpen((v) => !v)} className="lg:hidden transition text-[#0A2F73] hover:text-[#E64501] p-2" aria-label="Menu">
+          <button type="button" onClick={() => setIsMenuOpen((v) => !v)} className="lg:hidden transition text-[#0A2F73] hover:text-[#E64501] p-2" aria-label={t('nav.menu')}>
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
@@ -253,8 +264,8 @@ export function Header() {
             })}
 
             <div className="mt-4 flex items-center gap-2">
-              <button type="button" onClick={() => setLang('fr')} className={`px-3 py-2 rounded-lg text-sm font-bold ${i18n.language === 'fr' ? 'bg-[#0A2F73] text-white' : 'text-[#0A2F73] bg-gray-100'}`}>FR</button>
-              <button type="button" onClick={() => setLang('en')} className={`px-3 py-2 rounded-lg text-sm font-bold ${i18n.language === 'en' ? 'bg-[#0A2F73] text-white' : 'text-[#0A2F73] bg-gray-100'}`}>EN</button>
+              <button type="button" onClick={() => setLang('fr')} className={`px-3 py-2 rounded-lg text-sm font-bold ${i18n.language === 'fr' ? 'bg-[#0A2F73] text-white' : 'text-[#0A2F73] bg-gray-100'}`} aria-label={t('nav.langFr')}>FR</button>
+              <button type="button" onClick={() => setLang('en')} className={`px-3 py-2 rounded-lg text-sm font-bold ${i18n.language === 'en' ? 'bg-[#0A2F73] text-white' : 'text-[#0A2F73] bg-gray-100'}`} aria-label={t('nav.langEn')}>EN</button>
             </div>
             <Link
               to="/contact"

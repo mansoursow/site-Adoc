@@ -325,7 +325,7 @@ export function TeamSection() {
                 onClick={handlePrevMobile}
                 className="w-9 h-9 rounded-full bg-[#E64501] flex items-center justify-center text-white shadow hover:scale-105 transition"
               >
-                <span className="sr-only">Précédent</span>
+                <span className="sr-only">{t('team.previous')}</span>
                 <span className="text-lg">{'<'}</span>
               </button>
               <div className="flex gap-2">
@@ -337,7 +337,7 @@ export function TeamSection() {
                     className={`w-2.5 h-2.5 rounded-full ${
                       index === activeMobileIndex ? 'bg-[#E64501]' : 'bg-gray-300'
                     }`}
-                    aria-label={`Aller au membre ${index + 1}`}
+                    aria-label={t('team.goToMember', { index: index + 1 })}
                   />
                 ))}
               </div>
@@ -346,7 +346,7 @@ export function TeamSection() {
                 onClick={handleNextMobile}
                 className="w-9 h-9 rounded-full bg-[#E64501] flex items-center justify-center text-white shadow hover:scale-105 transition"
               >
-                <span className="sr-only">Suivant</span>
+                <span className="sr-only">{t('team.next')}</span>
                 <span className="text-lg">{'>'}</span>
               </button>
             </div>

@@ -201,7 +201,7 @@ export function TEGTAEGSimulator() {
                   inputMode="decimal"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Ex: 200000"
+                  placeholder={t('tegtaeg.placeholderAmount')}
                   className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-4 rounded-2xl font-black text-xl outline-none transition-all"
                 />
                 <span className="absolute right-5 top-1/2 -translate-y-1/2 font-black text-slate-300">{t('tegtaeg.currency')}</span>
@@ -265,7 +265,7 @@ export function TEGTAEGSimulator() {
                   inputMode="decimal"
                   value={insuranceRate}
                   onChange={(e) => setInsuranceRate(e.target.value)}
-                  placeholder="0.3"
+                  placeholder={t('tegtaeg.placeholderInsurance')}
                   className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-4 rounded-2xl font-bold outline-none transition-all"
                 />
                 <span className="absolute right-5 top-1/2 -translate-y-1/2 font-black text-slate-300">%</span>
@@ -282,7 +282,7 @@ export function TEGTAEGSimulator() {
                   inputMode="decimal"
                   value={fees}
                   onChange={(e) => setFees(e.target.value)}
-                  placeholder="0"
+                  placeholder={t('tegtaeg.placeholderFees')}
                   className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-4 rounded-2xl font-bold outline-none transition-all"
                 />
                 <span className="absolute right-5 top-1/2 -translate-y-1/2 font-black text-slate-300">{t('tegtaeg.currency')}</span>
