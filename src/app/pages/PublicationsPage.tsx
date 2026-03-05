@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Calculator, X, Clock, TrendingUp, Info, 
-  Coins, BarChart3, Percent, Activity, Scale, FileText, CheckCircle2, Briefcase, FileSignature 
+  Coins, BarChart3, Percent, Activity, Scale, FileText, CheckCircle2, Briefcase, FileSignature, Baby, CalendarX, Building2 
 } from 'lucide-react';
 import { SalarySimulator } from '@/app/components/SalarySimulator';
 import { TaxCalculator } from '@/app/components/TaxCalculator';
@@ -17,6 +17,9 @@ import { RatioSimulator } from '@/app/components/RatioSimulator';
 import { QuorumSimulator } from '@/app/components/QuorumSimulator';
 import { IndemniteLicenciementSimulator } from '@/app/components/IndemniteLicenciementSimulator';
 import { IndemniteFinCDDSimulator } from '@/app/components/IndemniteFinCDDSimulator';
+import { CongeMaterniteSimulator } from '@/app/components/CongeMaterniteSimulator';
+import { RetenueAbsenceSimulator } from '@/app/components/RetenueAbsenceSimulator';
+import { FormeSocialeSimulator } from '@/app/components/FormeSocialeSimulator';
 import { CodeInvestissementsSection } from '@/app/components/CodeInvestissementsSection';
 import { StartupActSection } from '@/app/components/StartupActSection';
 
@@ -346,7 +349,7 @@ function FiscalCalendar({ months }: { months: any[] }) {
 // ===================== PAGE PRINCIPALE =====================
 export function PublicationsPage() {
   const { t, i18n } = useTranslation();
-  const [activeTool, setActiveTool] = useState<'salary' | 'tax' | 'amortissement' | 'tegtaeg' | 'credit' | 'ratios' | 'quorum' | 'licenciement' | 'findcdd' | null>(null);
+  const [activeTool, setActiveTool] = useState<'salary' | 'tax' | 'amortissement' | 'tegtaeg' | 'credit' | 'ratios' | 'quorum' | 'licenciement' | 'findcdd' | 'congematernite' | 'retenueabsence' | 'formesociale' | null>(null);
   const [searchParams] = useSearchParams();
   const location = useLocation();
 
@@ -362,6 +365,9 @@ export function PublicationsPage() {
     if (tool === 'quorum' || hash === 'quorum') setActiveTool('quorum');
     if (tool === 'licenciement' || hash === 'licenciement') setActiveTool('licenciement');
     if (tool === 'findcdd' || hash === 'findcdd') setActiveTool('findcdd');
+    if (tool === 'congematernite' || hash === 'congematernite') setActiveTool('congematernite');
+    if (tool === 'retenueabsence' || hash === 'retenueabsence') setActiveTool('retenueabsence');
+    if (tool === 'formesociale' || hash === 'formesociale') setActiveTool('formesociale');
     if (hash && !['paie', 'impot'].includes(hash)) {
       const el = document.getElementById(hash);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -527,6 +533,21 @@ export function PublicationsPage() {
                   <FileSignature size={32} className="text-[#0A2F73] mb-6" />
                   <div className="font-black text-[#0A2F73] text-xl">{t('publications.finCDDSimulator')}</div>
                 </motion.div>
+
+                <motion.div whileHover={{ y: -8 }} onClick={() => setActiveTool('congematernite')} className="rounded-[2rem] p-8 bg-[#FFF0F5] border-2 border-dashed border-[#E64501]/30 cursor-pointer group">
+                  <Baby size={32} className="text-[#E64501] mb-6" />
+                  <div className="font-black text-[#0A2F73] text-xl">{t('publications.congeMaterniteSimulator')}</div>
+                </motion.div>
+
+                <motion.div whileHover={{ y: -8 }} onClick={() => setActiveTool('retenueabsence')} className="rounded-[2rem] p-8 bg-[#F0F9FF] border-2 border-dashed border-[#0A2F73]/30 cursor-pointer group">
+                  <CalendarX size={32} className="text-[#0A2F73] mb-6" />
+                  <div className="font-black text-[#0A2F73] text-xl">{t('publications.retenueAbsenceSimulator')}</div>
+                </motion.div>
+
+                <motion.div whileHover={{ y: -8 }} onClick={() => setActiveTool('formesociale')} className="rounded-[2rem] p-8 bg-[#F5F0FF] border-2 border-dashed border-[#7C3AED]/30 cursor-pointer group">
+                  <Building2 size={32} className="text-[#0A2F73] mb-6" />
+                  <div className="font-black text-[#0A2F73] text-xl">{t('publications.formeSocialeSimulator')}</div>
+                </motion.div>
              </div>
           </div>
 
@@ -587,7 +608,7 @@ export function PublicationsPage() {
         {activeTool && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setActiveTool(null)} className="absolute inset-0 bg-[#0A2F73]/80 backdrop-blur-sm" />
-            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} onClick={(e) => e.stopPropagation()} className={`relative w-full bg-white rounded-[2.5rem] shadow-2xl max-h-[90vh] overflow-hidden flex flex-col ${(activeTool === 'tegtaeg' || activeTool === 'amortissement' || activeTool === 'credit' || activeTool === 'ratios' || activeTool === 'quorum' || activeTool === 'licenciement' || activeTool === 'findcdd') ? 'max-w-5xl' : 'max-w-4xl'}`}>
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} onClick={(e) => e.stopPropagation()} className={`relative w-full bg-white rounded-[2.5rem] shadow-2xl max-h-[90vh] overflow-hidden flex flex-col ${(activeTool === 'tegtaeg' || activeTool === 'amortissement' || activeTool === 'credit' || activeTool === 'ratios' || activeTool === 'quorum' || activeTool === 'licenciement' || activeTool === 'findcdd' || activeTool === 'congematernite' || activeTool === 'retenueabsence' || activeTool === 'formesociale') ? 'max-w-5xl' : 'max-w-4xl'}`}>
               
               <div className="p-6 border-b flex justify-between items-center bg-white z-10">
                 <h2 className="text-xl font-black text-[#0A2F73]">
@@ -607,7 +628,13 @@ export function PublicationsPage() {
                                   ? t('publications.modalLicenciement')
                                   : activeTool === 'findcdd'
                                     ? t('publications.modalFinCDD')
-                                    : t('publications.modalQuorum')}
+                                    : activeTool === 'congematernite'
+                                      ? t('publications.modalCongeMaternite')
+                                      : activeTool === 'retenueabsence'
+                                        ? t('publications.modalRetenueAbsence')
+                                        : activeTool === 'formesociale'
+                                          ? t('publications.modalFormeSociale')
+                                          : t('publications.modalQuorum')}
                 </h2>
                 <button type="button" onClick={() => setActiveTool(null)} className="p-2 hover:bg-gray-100 rounded-full"><X size={24} className="text-[#0A2F73]" /></button>
               </div>
@@ -622,6 +649,9 @@ export function PublicationsPage() {
                  {activeTool === 'quorum' && <QuorumSimulator />}
                  {activeTool === 'licenciement' && <IndemniteLicenciementSimulator />}
                  {activeTool === 'findcdd' && <IndemniteFinCDDSimulator />}
+                 {activeTool === 'congematernite' && <CongeMaterniteSimulator />}
+                 {activeTool === 'retenueabsence' && <RetenueAbsenceSimulator />}
+                 {activeTool === 'formesociale' && <FormeSocialeSimulator />}
               </div>
             </motion.div>
           </div>

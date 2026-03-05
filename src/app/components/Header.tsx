@@ -63,6 +63,9 @@ export function Header() {
             { nameKey: 'nav.ratios', to: '/publications#ratios', icon: Percent },
             { nameKey: 'nav.simulatorLicenciement', to: '/publications#licenciement', icon: Calculator },
             { nameKey: 'nav.simulatorFinCDD', to: '/publications#findcdd', icon: Calculator },
+            { nameKey: 'nav.simulatorCongeMaternite', to: '/publications#congematernite', icon: Calculator },
+            { nameKey: 'nav.simulatorRetenueAbsence', to: '/publications#retenueabsence', icon: Calculator },
+            { nameKey: 'nav.simulatorFormeSociale', to: '/publications#formesociale', icon: Calculator },
           ],
         },
         {
