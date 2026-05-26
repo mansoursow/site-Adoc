@@ -1,5 +1,4 @@
 import { motion } from 'motion/react';
-import { useTranslation } from 'react-i18next';
 import auditIcon from '@/assets/icone/audit.png';
 import expertiseIcon from '@/assets/icone/expertise.png';
 import conseilIcon from '@/assets/icone/conseil.png';
@@ -9,42 +8,95 @@ import systemeInfoIcon from '@/assets/icone/systeme-info.png';
 
 const services = [
   {
-    icon: auditIcon,
-    title: 'Audit & Commissariat aux comptes',
-    description: 'Audit légal, contractuel et missions de commissariat aux comptes.',
-  },
-  {
-    icon: expertiseIcon,
-    title: 'Expertise comptable & Fiscalité',
-    description: 'Tenue, révision comptable, fiscalité et établissement des états financiers.',
-  },
-  {
+    id: 'strategie',
+    title: 'STRATÉGIE & PERFORMANCE',
     icon: conseilIcon,
-    title: 'Conseil stratégique & Organisation',
-    description: 'Accompagnement des dirigeants dans leurs choix stratégiques et organisationnels.',
+    accentFrom: '#0A2F73',
+    accentTo: '#1a4a9e',
+    items: [
+      'Conseil stratégique et plans de développement',
+      'Transformation et restructuration d\'entreprises',
+      'Modélisation financière et business plans',
+      'Évaluation d\'entreprises et due diligence',
+      'Project finance et montages PPP',
+      'Tableaux de bord et pilotage de la performance',
+      'Accompagnement des directions générales',
+    ],
   },
   {
+    id: 'audit',
+    title: 'AUDIT & ASSURANCE',
+    icon: auditIcon,
+    accentFrom: '#0c3580',
+    accentTo: '#1d55b5',
+    items: [
+      'Commissariat aux comptes (OHADA / IFRS)',
+      'Audit de performance et d\'efficacité',
+      'Audit d\'investigation et forensic',
+      'Audit des marchés publics',
+      'Revue des systèmes de contrôle interne',
+      'Audits spéciaux bailleurs de fonds',
+    ],
+  },
+  {
+    id: 'risques',
+    title: 'RISQUES, GOUVERNANCE ET CONFORMITÉ',
     icon: restructurationIcon,
-    title: 'Transactions & Restructuration',
-    description: 'Opérations de restructuration, évaluation et accompagnement stratégique.',
+    accentFrom: '#102a6e',
+    accentTo: '#2050a8',
+    items: [
+      'Cartographie et gestion des risques',
+      'Gouvernance d\'entreprise et institutionnelle',
+      'Conformité réglementaire (OHADA / BCEAO)',
+      'Audit interne et dispositifs anti-fraude',
+      'Politiques et gouvernance publique',
+      'Études macro-économiques et sectorielles',
+    ],
   },
   {
+    id: 'public',
+    title: 'SECTEUR PUBLIC ET DÉVELOPPEMENT',
     icon: secteurPublicIcon,
-    title: 'Secteur public & Politiques publiques',
-    description: 'Audit, conseil et accompagnement des institutions publiques et parapubliques.',
+    accentFrom: '#083468',
+    accentTo: '#154a96',
+    items: [
+      'Missions bailleurs de fonds (Banque mondiale, BAD, UE, BOAD…)',
+      'Évaluation de programmes et projets de développement',
+      'Audit des finances publiques',
+      'Appui institutionnel et renforcement de capacités',
+    ],
   },
   {
+    id: 'capital',
+    title: 'CAPITAL HUMAIN ET TRANSFORMATION',
     icon: systemeInfoIcon,
-    title: 'Systèmes d’information & Transformation digitale',
-    description: 'Modernisation des SI, accompagnement digital et gouvernance des données.',
+    accentFrom: '#0e3a88',
+    accentTo: '#2560bc',
+    items: [
+      'Diagnostic et transformation organisationnelle',
+      'Conduite du changement',
+      'Externalisation DAF / Direction audit interne',
+      'Formation des dirigeants et équipes',
+      'Manuels de procédures et organigrammes',
+    ],
+  },
+  {
+    id: 'expertise',
+    title: 'EXPERTISE COMPTABLE ET FISCALE',
+    icon: expertiseIcon,
+    accentFrom: '#0b3177',
+    accentTo: '#1c4faa',
+    items: [
+      'Tenue et surveillance comptable (SYSCOHADA)',
+      'Établissement des comptes annuels',
+      'Déclarations fiscales et sociales',
+      'Consolidation des comptes',
+      'Expertise judiciaire et agence fiduciaire',
+    ],
   },
 ];
 
-const serviceKeys = ['audit', 'expertise', 'conseil', 'restructuration', 'public', 'digital'] as const;
-const serviceIcons = [auditIcon, expertiseIcon, conseilIcon, restructurationIcon, secteurPublicIcon, systemeInfoIcon];
-
 export function ServicesSection() {
-  const { t } = useTranslation();
   return (
     <section id="services" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 max-w-full">
@@ -55,48 +107,78 @@ export function ServicesSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl mb-4 text-[#0A2F73]">{t('services.title')}</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">{t('services.subtitle')}</p>
+          <p className="text-sm font-semibold tracking-widest uppercase mb-3">
+            <span className="text-orange-500">ADOC</span>
+            <span className="text-[#0A2F73]"> CONSULTING — Advisory · Audit · Strategy</span>
+          </p>
+          <h2 className="text-3xl md:text-5xl mb-4 text-[#0A2F73]">Nos Services</h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Partenaire stratégique de la performance et de la gouvernance
+          </p>
         </motion.div>
 
-        {/* ===== GRID SERVICES ===== */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {serviceKeys.map((key, index) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service, index) => (
             <motion.div
-              key={key}
-              initial={{ opacity: 0, y: 20 }}
+              key={service.id}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ y: -10 }}
-              className="
-                bg-white p-8 rounded-2xl
-                shadow-lg hover:shadow-xl
-                transition-all duration-300
-                group
-              "
+              transition={{ duration: 0.5, delay: index * 0.08 }}
+              className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow duration-500 cursor-default"
             >
-              {/* ===== ICÔNE IMAGE ===== */}
+              {/* Header — toujours visible */}
               <div
-                className="
-                  w-20 h-20 mb-6
-                  flex items-center justify-center
-                  rounded-2xl
-                  bg-gradient-to-br from-[#3F5F99]/10 to-[#0A2F73]/10
-                  group-hover:scale-110
-                  transition-transform duration-300
-                "
+                className="relative p-8 flex flex-col items-start gap-4 transition-all duration-500"
+                style={{ background: `linear-gradient(135deg, ${service.accentFrom}, ${service.accentTo})` }}
               >
-                <img
-                  src={serviceIcons[index]}
-                  alt={t(`services.${key}.title`)}
-                  className="w-14 h-14 object-contain"
-                />
+                {/* Icône */}
+                <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-white/15 group-hover:bg-white/25 transition-colors duration-300 shrink-0">
+                  <img
+                    src={service.icon}
+                    alt={service.title}
+                    className="w-10 h-10 object-contain brightness-0 invert"
+                  />
+                </div>
+
+                {/* Titre */}
+                <h3 className="text-white text-lg font-bold leading-snug tracking-wide">
+                  {service.title}
+                </h3>
+
+                {/* Indicateur hover */}
+                <span className="text-white/50 text-xs group-hover:opacity-0 transition-opacity duration-300">
+                  Survolez pour découvrir →
+                </span>
               </div>
 
-              {/* ===== TEXTE ===== */}
-              <h3 className="text-xl font-bold mb-3 text-[#0A2F73]">{t(`services.${key}.title`)}</h3>
-              <p className="text-gray-600 leading-relaxed">{t(`services.${key}.desc`)}</p>
+              {/* Contenu — révélé au survol */}
+              <div
+                className="
+                  max-h-0 overflow-hidden
+                  group-hover:max-h-[480px]
+                  transition-[max-height] duration-500 ease-in-out
+                  bg-white
+                "
+              >
+                <ul className="px-7 py-6 space-y-3">
+                  {service.items.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-gray-700 text-sm leading-relaxed">
+                      <span
+                        className="mt-1.5 w-2 h-2 rounded-full shrink-0"
+                        style={{ backgroundColor: service.accentFrom }}
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Barre décorative basse */}
+                <div
+                  className="h-1 w-full"
+                  style={{ background: `linear-gradient(90deg, ${service.accentFrom}, ${service.accentTo})` }}
+                />
+              </div>
             </motion.div>
           ))}
         </div>

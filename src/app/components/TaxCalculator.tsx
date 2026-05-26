@@ -14,12 +14,14 @@ interface TaxResult {
 export function TaxCalculator() {
   const { t } = useTranslation();
   const [revenuBrutSaisi, setRevenuBrutSaisi] = useState<string>('');
+  const [periodicity, setPeriodicity] = useState<'mensuel' | 'annuel'>('mensuel');
   const [situationFamiliale, setSituationFamiliale] = useState<string>('celibataire');
   const [nombreEnfants, setNombreEnfants] = useState<string>('0');
   const [result, setResult] = useState<TaxResult | null>(null);
 
   const calculateTax = () => {
-    const brutSaisi = parseFloat(revenuBrutSaisi) || 0;
+    const saisiBrut = parseFloat(revenuBrutSaisi) || 0;
+    const brutSaisi = periodicity === 'mensuel' ? saisiBrut * 12 : saisiBrut;
     const brutBase = Math.floor(brutSaisi / 5000) * 5000;
     const enfants = parseInt(nombreEnfants) || 0;
 
@@ -108,17 +110,44 @@ export function TaxCalculator() {
           
           <div className="space-y-6">
             <div>
-              <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">{t('taxCalculator.annualGrossIncome')}</label>
+              {/* Toggle mensuel / annuel */}
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-black text-gray-400 uppercase tracking-widest">
+                  Revenu Brut {periodicity === 'mensuel' ? 'Mensuel' : 'Annuel'}
+                </label>
+                <div className="flex rounded-xl overflow-hidden border border-gray-200 text-xs font-black">
+                  <button
+                    type="button"
+                    onClick={() => { setPeriodicity('mensuel'); setResult(null); }}
+                    className={`px-3 py-1.5 transition-all ${periodicity === 'mensuel' ? 'bg-[#0A2F73] text-white' : 'bg-white text-gray-400 hover:bg-gray-50'}`}
+                  >
+                    Mensuel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setPeriodicity('annuel'); setResult(null); }}
+                    className={`px-3 py-1.5 transition-all ${periodicity === 'annuel' ? 'bg-[#0A2F73] text-white' : 'bg-white text-gray-400 hover:bg-gray-50'}`}
+                  >
+                    Annuel
+                  </button>
+                </div>
+              </div>
               <div className="relative">
                 <input
                   type="number"
+                  min="0"
                   value={revenuBrutSaisi}
-                  onChange={(e) => setRevenuBrutSaisi(e.target.value)}
+                  onChange={(e) => { setRevenuBrutSaisi(e.target.value); setResult(null); }}
                   className="w-full bg-slate-50 border-2 border-transparent focus:border-[#0A2F73] p-4 rounded-2xl font-black text-xl outline-none transition-all"
-                  placeholder={t('taxCalculator.placeholder')}
+                  placeholder={periodicity === 'mensuel' ? 'Ex: 588 000' : 'Ex: 7 056 000'}
                 />
                 <span className="absolute right-5 top-1/2 -translate-y-1/2 font-black text-slate-300 tracking-tighter">{t('taxCalculator.cfa')}</span>
               </div>
+              {periodicity === 'mensuel' && revenuBrutSaisi && parseFloat(revenuBrutSaisi) > 0 && (
+                <p className="text-xs text-[#0A2F73]/50 mt-1.5 pl-1">
+                  ≈ {(parseFloat(revenuBrutSaisi) * 12).toLocaleString('fr-FR')} FCFA / an
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -138,6 +167,8 @@ export function TaxCalculator() {
                 <label className="block text-xs font-black text-gray-400 uppercase mb-2 tracking-widest">{t('taxCalculator.children')}</label>
                 <input
                   type="number"
+                  min="0"
+                  max="10"
                   value={nombreEnfants}
                   onChange={(e) => setNombreEnfants(e.target.value)}
                   className="w-full bg-slate-50 p-4 rounded-2xl font-bold outline-none border-2 border-transparent focus:border-[#0A2F73]/20"
@@ -145,7 +176,7 @@ export function TaxCalculator() {
               </div>
             </div>
 
-            <button onClick={calculateTax} className="w-full bg-[#0A2F73] text-white py-5 rounded-2xl font-black hover:bg-[#E64501] transition-all shadow-lg shadow-[#0A2F73]/20 uppercase tracking-widest text-sm">
+            <button type="button" onClick={calculateTax} className="w-full bg-[#0A2F73] text-white py-5 rounded-2xl font-black hover:bg-[#E64501] transition-all shadow-lg shadow-[#0A2F73]/20 uppercase tracking-widest text-sm">
               {t('taxCalculator.calculate')}
             </button>
           </div>

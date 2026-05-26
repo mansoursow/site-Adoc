@@ -182,6 +182,18 @@
           "description": "Member of the audit and advisory team",
           "bio": "Ndeye Maguette supports clients on their advisory and audit projects.",
           "expertise": ["Advisory", "Audit", "Reporting"]
+        },
+        "mariame": {
+          "role": "Executive Assistant",
+          "description": "10 years of experience as executive assistant",
+          "bio": "Mariame handles administrative coordination and strategic support for management. With 10 years of experience, she ensures the smooth daily operation of the firm and the quality of client reception.",
+          "expertise": ["Executive assistance", "Organisation", "Coordination", "Administration"]
+        },
+        "massamba": {
+          "role": "Manager",
+          "description": "10 years of experience in management and advisory",
+          "bio": "Massamba leads advisory and audit assignments with 10 years of experience. He brings solid expertise in team management and strategic support for organisations.",
+          "expertise": ["Management", "Advisory", "Audit", "Strategy"]
         }
       }
     }

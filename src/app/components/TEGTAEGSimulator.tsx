@@ -24,6 +24,7 @@ export interface ScheduleRow {
 }
 
 export interface TEGTAEGResult {
+  teg: number;
   taeg: number;
   monthlyPayment: number;
   totalPaid: number;
@@ -94,6 +95,28 @@ function solveTAEG(
   return (Math.pow(1 + rMonthly, 12) - 1) * 100;
 }
 
+function solveTEG(
+  amount: number,
+  schedule: ScheduleRow[],
+  maxIter = 50
+): number {
+  let low = 0.00001;
+  let high = 0.5;
+  for (let iter = 0; iter < maxIter; iter++) {
+    const r = (low + high) / 2;
+    let npv = 0;
+    for (let k = 0; k < schedule.length; k++) {
+      const pmt = schedule[k].interest + schedule[k].principal;
+      npv += pmt / Math.pow(1 + r, k + 1);
+    }
+    if (Math.abs(npv - amount) < 1) break;
+    if (npv > amount) low = r;
+    else high = r;
+  }
+  const rMonthly = (low + high) / 2;
+  return (Math.pow(1 + rMonthly, 12) - 1) * 100;
+}
+
 export function TEGTAEGSimulator() {
   const { t } = useTranslation();
   const [calcType, setCalcType] = useState<'TAEG' | 'TEG'>('TAEG');
@@ -127,9 +150,11 @@ export function TEGTAEGSimulator() {
       feesNum
     );
     const netReceived = amountNum - feesNum;
+    const teg = solveTEG(amountNum, schedule);
     const taeg = solveTAEG(netReceived, schedule);
     const monthlyPayment = schedule[0]?.total ?? 0;
     setResult({
+      teg,
       taeg,
       monthlyPayment,
       totalPaid,
@@ -311,8 +336,15 @@ export function TEGTAEGSimulator() {
                   {calcType} {t('tegtaeg.resultRate')}
                 </div>
                 <div className="text-4xl font-black text-[#E64501]">
-                  {result.taeg.toFixed(2)} %
+                  {(calcType === 'TAEG' ? result.taeg : result.teg).toFixed(2)} %
                 </div>
+                {Math.abs(result.taeg - result.teg) >= 0.01 && (
+                  <div className="mt-3 text-xs text-white/50">
+                    {calcType === 'TAEG'
+                      ? `TEG (hors assurance/frais) : ${result.teg.toFixed(2)} %`
+                      : `TAEG (tout compris) : ${result.taeg.toFixed(2)} %`}
+                  </div>
+                )}
                 <div className="mt-6 grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <span className="text-white/60">{t('tegtaeg.monthlyPayment')}</span>

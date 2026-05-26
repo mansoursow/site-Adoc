@@ -606,7 +606,7 @@ export function PublicationsPage() {
 
       <AnimatePresence>
         {activeTool && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setActiveTool(null)} className="absolute inset-0 bg-[#0A2F73]/80 backdrop-blur-sm" />
             <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} onClick={(e) => e.stopPropagation()} className={`relative w-full bg-white rounded-[2.5rem] shadow-2xl max-h-[90vh] overflow-hidden flex flex-col ${(activeTool === 'tegtaeg' || activeTool === 'amortissement' || activeTool === 'credit' || activeTool === 'ratios' || activeTool === 'quorum' || activeTool === 'licenciement' || activeTool === 'findcdd' || activeTool === 'congematernite' || activeTool === 'retenueabsence' || activeTool === 'formesociale') ? 'max-w-5xl' : 'max-w-4xl'}`}>
               

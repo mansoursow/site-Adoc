@@ -10,7 +10,9 @@ import photoAlpha from '../../assets/team/alpha.png';
 // Niveau 2 - Stagiaires
 import photoMansour from '../../assets/team/mansour.png';
 import photoMoustapha from '../../assets/team/moustapha.jpg';
-import photoDiouck from '../../assets/team/Diouck.avif';
+import photoDiouck from '../../assets/team/diouck.png';
+import photoMariame from '../../assets/team/mariam.png';
+import photoMassamba from '../../assets/team/fall.png';
 
 // Niveau 3 - Équipe
 import photoMariama from '../../assets/team/mariama.png';
@@ -160,6 +162,26 @@ const LEVEL_3_EQUIPE: TeamMember[] = [
     descriptionKey: 'team.levels.equipe.ndeyemaguette.description',
     bioKey: 'team.levels.equipe.ndeyemaguette.bio',
     expertiseKey: 'team.levels.equipe.ndeyemaguette.expertise',
+    email: 'contact@adoc.com',
+    linkedin: '#',
+  },
+  {
+    name: 'Mariame Diallo',
+    roleKey: 'team.levels.equipe.mariame.role',
+    image: photoMariame,
+    descriptionKey: 'team.levels.equipe.mariame.description',
+    bioKey: 'team.levels.equipe.mariame.bio',
+    expertiseKey: 'team.levels.equipe.mariame.expertise',
+    email: 'contact@adoc.com',
+    linkedin: '#',
+  },
+  {
+    name: 'Massamba Fall',
+    roleKey: 'team.levels.equipe.massamba.role',
+    image: photoMassamba,
+    descriptionKey: 'team.levels.equipe.massamba.description',
+    bioKey: 'team.levels.equipe.massamba.bio',
+    expertiseKey: 'team.levels.equipe.massamba.expertise',
     email: 'contact@adoc.com',
     linkedin: '#',
   },

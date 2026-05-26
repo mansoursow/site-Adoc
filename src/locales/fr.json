@@ -181,6 +181,18 @@
           "description": "Membre de l'équipe audit et conseil",
           "bio": "Ndeye Maguette accompagne les clients sur leurs projets de conseil et d'audit.",
           "expertise": ["Conseil", "Audit", "Reporting"]
+        },
+        "mariame": {
+          "role": "Assistante de Direction",
+          "description": "10 ans d'expérience en assistanat de direction",
+          "bio": "Mariame assure la coordination administrative et le soutien stratégique de la direction. Forte de 10 ans d'expérience, elle veille au bon fonctionnement quotidien du cabinet et à la qualité de l'accueil des clients.",
+          "expertise": ["Assistanat de direction", "Organisation", "Coordination", "Administration"]
+        },
+        "massamba": {
+          "role": "Manager",
+          "description": "10 ans d'expérience en management et conseil",
+          "bio": "Massamba pilote des missions de conseil et d'audit avec 10 ans d'expérience. Il apporte une expertise solide en management des équipes et en accompagnement stratégique des organisations.",
+          "expertise": ["Management", "Conseil", "Audit", "Stratégie"]
         }
       }
     }
