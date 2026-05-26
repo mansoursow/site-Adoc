@@ -16,4 +16,10 @@ services:
         value: production
       - key: OPENAI_API_KEY
         sync: false
-    # Ouvrez l'onglet Environment du service et ajoutez OPENAI_API_KEY (valeur secrète) à la main.
+      # Ouvrez l'onglet Environment du service et ajoutez OPENAI_API_KEY (valeur secrète) à la main.
+
+    # Toutes les routes inconnues → index.html (fallback React Router / SPA)
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

@@ -283,13 +283,17 @@ app.get('/api/chat/health', (_req, res) => {
   });
 });
 
-// Si dist/ existe (après npm run build), servir le site + fallback SPA
-if (serveFrontend) {
-  app.use(express.static(distPath, { index: false }));
-  app.get('*', (_req, res) => {
-    res.sendFile(path.join(distPath, 'index.html'));
-  });
-}
+// Servir le site statique (dist/) + fallback SPA pour toutes les routes React Router
+// Le fallback est toujours enregistré : si dist/ n'existe pas encore, on renvoie 404 explicite
+app.use(express.static(distPath, { index: false }));
+app.get('*', (_req, res) => {
+  const indexPath = path.join(distPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).send('Site non disponible. Lancez "npm run build" pour générer dist/.');
+  }
+});
 
 app.listen(PORT, '0.0.0.0', () => {
   if (serveFrontend) {
