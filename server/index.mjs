@@ -284,11 +284,27 @@ app.get('/api/chat/health', (_req, res) => {
 });
 
 // Servir le site statique (dist/) + fallback SPA pour toutes les routes React Router
-// Le fallback est toujours enregistré : si dist/ n'existe pas encore, on renvoie 404 explicite
-app.use(express.static(distPath, { index: false }));
+// Assets (JS/CSS avec hash Vite) → cache long terme (1 an, immutable)
+// index.html → jamais mis en cache (toujours la dernière version après un déploiement)
+app.use(express.static(distPath, {
+  index: false,
+  setHeaders(res, filePath) {
+    if (filePath.endsWith('index.html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    } else if (/\.(js|css|woff2?|ttf|eot|png|jpg|jpeg|svg|ico|webp|avif)$/i.test(filePath)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+  },
+}));
+
 app.get('*', (_req, res) => {
   const indexPath = path.join(distPath, 'index.html');
   if (fs.existsSync(indexPath)) {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
     res.sendFile(indexPath);
   } else {
     res.status(404).send('Site non disponible. Lancez "npm run build" pour générer dist/.');
