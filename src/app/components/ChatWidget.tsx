@@ -29,6 +29,15 @@ function getMessageText(m: { parts?: Array<{ type: string; text?: string }>; con
     .join('');
 }
 
+function sanitizeBotText(text: string): string {
+  if (!text) return '';
+  // Supprimer les liens markdown [titre](url)
+  let cleaned = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gi, '$1');
+  // Supprimer les URLs brutes
+  cleaned = cleaned.replace(/https?:\/\/\S+/gi, '');
+  return cleaned.trim();
+}
+
 export function ChatWidget() {
   const { t } = useTranslation();
   const location = useLocation();
@@ -239,7 +248,7 @@ export function ChatWidget() {
     const assistantMsgs = chat.messages.filter((m) => m.role === 'assistant');
     if (assistantMsgs.length <= addedAiCountRef.current) return;
     const nextMsg = assistantMsgs[addedAiCountRef.current];
-    const text = getMessageText(nextMsg);
+    const text = sanitizeBotText(getMessageText(nextMsg));
     if (text) {
       addedAiCountRef.current += 1;
       addMessage('bot', text);
