@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Calculator, Users } from 'lucide-react';
+import { Calculator, Users, Heart } from 'lucide-react';
 
 interface TaxResult {
   revenuBrut: number;
@@ -17,6 +17,7 @@ export function TaxCalculator() {
   const [periodicity, setPeriodicity] = useState<'mensuel' | 'annuel'>('mensuel');
   const [situationFamiliale, setSituationFamiliale] = useState<string>('celibataire');
   const [nombreEnfants, setNombreEnfants] = useState<string>('0');
+  const [conjointEnCharge, setConjointEnCharge] = useState<boolean>(false);
   const [result, setResult] = useState<TaxResult | null>(null);
 
   const calculateTax = () => {
@@ -36,7 +37,12 @@ export function TaxCalculator() {
     
     // Ajout des parts pour enfants (0.5 par enfant)
     calculParts += (enfants * 0.5);
-    
+
+    // Conjoint sans revenu : +0.5 part (uniquement si marié)
+    if (situationFamiliale === 'marie' && conjointEnCharge) {
+      calculParts += 0.5;
+    }
+
     // Application du plafond strict (Art 174.4)
     const finalParts = Math.min(calculParts, 5.0);
 
@@ -47,6 +53,11 @@ export function TaxCalculator() {
     else if (brutBase >= 2000000 && brutBase < 7000000) trimf = 12000;
     else if (brutBase >= 7000000 && brutBase < 12000000) trimf = 18000;
     else if (brutBase >= 12000000) trimf = 36000;
+
+    // Conjoint sans revenu : TRIMF doublée (redevable pour le conjoint)
+    if (situationFamiliale === 'marie' && conjointEnCharge) {
+      trimf = trimf * 2;
+    }
 
     // 3. IR Progressif Annuel
     const abattement = Math.min(brutBase * 0.3, 900000);
@@ -174,6 +185,27 @@ export function TaxCalculator() {
                   className="w-full bg-slate-50 p-4 rounded-2xl font-bold outline-none border-2 border-transparent focus:border-[#0A2F73]/20"
                 />
               </div>
+            </div>
+
+            {/* Conjoint sans revenu (impacte parts + TRIMF, uniquement si marié) */}
+            <div>
+              <button
+                type="button"
+                disabled={situationFamiliale !== 'marie'}
+                onClick={() => { setConjointEnCharge((v) => !v); setResult(null); }}
+                className={`w-full p-4 rounded-2xl border-2 text-xs font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2
+                  ${situationFamiliale !== 'marie'
+                    ? 'bg-slate-50 border-transparent text-gray-300 cursor-not-allowed'
+                    : conjointEnCharge
+                      ? 'bg-[#0A2F73] border-[#0A2F73] text-white shadow-lg shadow-[#0A2F73]/20'
+                      : 'bg-slate-50 border-transparent text-gray-400 hover:border-[#0A2F73]/20'}`}
+              >
+                <Heart size={14} className={conjointEnCharge && situationFamiliale === 'marie' ? 'fill-white' : ''} />
+                {t('taxCalculator.spouseNoIncome')}
+              </button>
+              <p className="text-[10px] text-[#0A2F73]/50 mt-1.5 pl-1 italic">
+                {t('taxCalculator.spouseNoIncomeHint')}
+              </p>
             </div>
 
             <button type="button" onClick={calculateTax} className="w-full bg-[#0A2F73] text-white py-5 rounded-2xl font-black hover:bg-[#E64501] transition-all shadow-lg shadow-[#0A2F73]/20 uppercase tracking-widest text-sm">

@@ -22,6 +22,7 @@ import { RetenueAbsenceSimulator } from '@/app/components/RetenueAbsenceSimulato
 import { FormeSocialeSimulator } from '@/app/components/FormeSocialeSimulator';
 import { CodeInvestissementsSection } from '@/app/components/CodeInvestissementsSection';
 import { StartupActSection } from '@/app/components/StartupActSection';
+import { PageBackground } from '@/app/components/PageBackground';
 
 import image7 from '@/assets/gallery-cabinet/image7.jpg';
 
@@ -71,6 +72,29 @@ function ImmoCalendar({ months }: { months: any[] }) {
   const weekDays = t('publications.weekDays', { returnObjects: true }) as string[];
   const monthGrid = useMemo(() => buildMonthGrid(year, month.monthIndex), [year, month.monthIndex]);
   const highlightDays = useMemo(() => new Set(month.items.map((x: any) => x.day)), [month.items]);
+
+  // ✅ Compte à rebours (identique au calendrier fiscal)
+  const allDeadlines = useMemo(() => {
+    const flat: any[] = [];
+    months.forEach((m) => {
+      m.items.forEach((it: any) => {
+        flat.push({ month: m, item: it, date: new Date(year, m.monthIndex, it.day, 23, 59) });
+      });
+    });
+    return flat;
+  }, [months, year]);
+
+  const globalNext = useMemo(() => {
+    const future = allDeadlines
+      .filter((x) => x.date.getTime() >= now.getTime())
+      .sort((a, b) => a.date.getTime() - b.date.getTime());
+    return future[0] || null;
+  }, [allDeadlines, now]);
+
+  const countdownTarget = activeDay ? new Date(year, month.monthIndex, activeDay, 23, 59) : globalNext?.date;
+  const countdown = useCountdown(countdownTarget);
+  const isPast = countdownTarget && countdownTarget.getTime() < now.getTime();
+
   const selectedDayItems = month.items.filter((it: any) => it.day === activeDay);
 
   return (
@@ -140,12 +164,38 @@ function ImmoCalendar({ months }: { months: any[] }) {
             <div className="absolute inset-0" style={{ background: `linear-gradient(to top, ${IMMO_COLORS.primary}, ${IMMO_COLORS.primary}80, ${IMMO_COLORS.primary}50)` }} />
           </div>
 
-          <div className="relative z-10 p-8 border-b border-white/10 text-white flex justify-between items-center bg-white/5 backdrop-blur-md">
-            <span className="font-black text-xl tracking-tight">{t('publications.deadlineDetails')}</span>
-            {activeDay && (
-              <span className="px-4 py-1 rounded-full text-xs font-bold shadow-lg text-white" style={{ backgroundColor: IMMO_COLORS.accent }}>
-                {activeDay} {month.name}
-              </span>
+          <div className="relative z-10 p-8 border-b border-white/10 text-white flex flex-col gap-4 bg-white/5 backdrop-blur-md">
+            <div className="flex justify-between items-center">
+              <span className="font-black text-xl tracking-tight">{t('publications.deadlineDetails')}</span>
+              {activeDay && (
+                <span className="px-4 py-1 rounded-full text-xs font-bold shadow-lg text-white" style={{ backgroundColor: IMMO_COLORS.accent }}>
+                  {activeDay} {month.name}
+                </span>
+              )}
+            </div>
+            {activeDay && countdownTarget && (
+              <div className="flex flex-wrap gap-3 items-center">
+                {isPast ? (
+                  <span className="text-white/80 text-sm font-bold">{t('publications.countdownPast')}</span>
+                ) : countdown ? (
+                  <>
+                    <span className="text-[10px] font-black text-white/60 uppercase tracking-wider">{t('publications.countdownUntil')}</span>
+                    <div className="flex gap-2">
+                      {[
+                        { v: countdown.days, l: t('publications.countdownDays') },
+                        { v: countdown.hours, l: t('publications.countdownHours') },
+                        { v: countdown.minutes, l: t('publications.countdownMinutes') },
+                        { v: countdown.seconds, l: t('publications.countdownSeconds') },
+                      ].map(({ v, l }) => (
+                        <div key={l} className="bg-white/15 rounded-lg px-3 py-2 min-w-[52px] text-center">
+                          <span className="block font-black text-lg text-white tabular-nums">{String(v).padStart(2, '0')}</span>
+                          <span className="text-[10px] text-white/70 font-bold">{l}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : null}
+              </div>
             )}
           </div>
 
@@ -419,6 +469,7 @@ export function PublicationsPage() {
       { name: monthNames[2] || 'Mar', index: 2, items: [
         ...MENSUELS_15,
         g('rvmAssociesTitle', 31),
+        g('taxePublicitaireTitle', 31),
       ]},
       { name: monthNames[3] || 'Apr', index: 3, items: [
         ...MENSUELS_15,
@@ -456,7 +507,7 @@ export function PublicationsPage() {
     return [
       { monthIndex: 0, name: monthNames[0], items: tvaBrs.map((it) => ({ ...it, day: 15 })) },
       { monthIndex: 1, name: monthNames[1], items: [{ ...getImmo('cgf'), day: 1 }, ...acompteTvaBrs.map((it) => ({ ...it, day: 15 }))] },
-      { monthIndex: 2, name: monthNames[2], items: [...tvaBrs.map((it) => ({ ...it, day: 15 })), { ...getImmo('cfpb'), day: 31 }] },
+      { monthIndex: 2, name: monthNames[2], items: [...tvaBrs.map((it) => ({ ...it, day: 15 })), { ...getImmo('cfpb'), day: 31 }, { ...getImmo('taxePublicitaire'), day: 31 }] },
       { monthIndex: 3, name: monthNames[3], items: [...acompteTvaBrs.map((it) => ({ ...it, day: 15 })), { ...getImmo('is'), day: 30 }, { ...getImmo('irFonciers'), day: 30 }] },
       { monthIndex: 4, name: monthNames[4], items: acompteTvaBrs.map((it) => ({ ...it, day: 15 })) },
       { monthIndex: 5, name: monthNames[5], items: tvaBrs.map((it) => ({ ...it, day: 15 })) },
@@ -477,8 +528,11 @@ export function PublicationsPage() {
   }) as string[];
 
   return (
-    <div className="bg-white min-h-screen">
-      <section className="py-16 md:py-24">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* ✅ Fond d'images animé (dossier "last image") */}
+      <PageBackground variant="slideshow" offset={10} />
+
+      <section className="relative z-10 py-16 md:py-24">
         <div className="container mx-auto px-6">
           <motion.h1 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="text-4xl md:text-6xl font-black text-[#0A2F73] tracking-tighter mb-4">
             {t('publications.title')} <span className="text-[#E64501]">&</span> {t('publications.andTools')}

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { PageBackground } from '@/app/components/PageBackground';
 
 // ✅ IMAGES DU CABINET (15)
 import image1 from '@/assets/gallery-cabinet/image1.jpg';
@@ -100,8 +101,11 @@ export function CabinetPage() {
   const pos = current.pos ?? 'center';
 
   return (
-    <div className="bg-white">
-      <section className="py-16 md:py-20">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* ✅ Fond d'images animé (dossier "last image") */}
+      <PageBackground variant="slideshow" offset={0} />
+
+      <section className="relative z-10 py-16 md:py-20">
         <div className="container mx-auto px-6">
           {/* ================= TITRE ================= */}
           <motion.h1

@@ -2,7 +2,8 @@
 
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { 
+import { PageBackground } from '@/app/components/PageBackground';
+import {
   Building2, 
   Zap, 
   BarChart3, 
@@ -65,8 +66,11 @@ export function SecteursPage() {
     icon: [<Building2 size={32} strokeWidth={1.5} key="1" />, <Zap size={32} strokeWidth={1.5} key="2" />, <BarChart3 size={32} strokeWidth={1.5} key="3" />, <Cpu size={32} strokeWidth={1.5} key="4" />, <Factory size={32} strokeWidth={1.5} key="5" />, <Stethoscope size={32} strokeWidth={1.5} key="6" />, <Hotel size={32} strokeWidth={1.5} key="7" />, <Users2 size={32} strokeWidth={1.5} key="8" />][i]
   }));
   return (
-    <div className="bg-white min-h-screen">
-      <section className="py-16 md:py-24">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* ✅ Fond d'images animé + parallaxe au scroll */}
+      <PageBackground variant="parallax" offset={5} />
+
+      <section className="relative z-10 py-16 md:py-24">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, x: -20 }}

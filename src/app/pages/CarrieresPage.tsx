@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
+import { PageBackground } from '@/app/components/PageBackground';
 
 export function CarrieresPage() {
   const { t } = useTranslation();
@@ -27,8 +28,11 @@ export function CarrieresPage() {
   };
 
   return (
-    <div className="bg-white min-h-screen">
-      <section className="py-16 md:py-20">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* ✅ Fond d'images animé + parallaxe au scroll */}
+      <PageBackground variant="parallax" offset={15} />
+
+      <section className="relative z-10 py-16 md:py-20">
         <div className="container mx-auto px-6">
           <motion.h1
             initial={{ opacity: 0, y: 12 }}
