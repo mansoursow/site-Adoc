@@ -25,6 +25,19 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    // Les libs qui ne bougent quasiment jamais sont isolées : elles restent
+    // en cache navigateur d'un déploiement à l'autre.
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom', 'react-router-dom'],
+          motion: ['framer-motion'],
+          i18n: ['i18next', 'react-i18next'],
+        },
+      },
+    },
+  },
   optimizeDeps: {
     include: ['ai', '@ai-sdk/react', 'openai', '@ai-sdk/openai']
   }

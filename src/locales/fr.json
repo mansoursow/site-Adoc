@@ -37,6 +37,17 @@
     "discover": "Découvrir la suite",
     "discoverAria": "Descendre pour voir la suite"
   },
+  "heritage": {
+    "eyebrow": "Depuis {{year}}",
+    "headline": "{{years}} ANS",
+    "lead": "Plus de quatre décennies d'expertise au service des entreprises, des institutions et des projets de développement.",
+    "stats": {
+      "years": "Années de continuité professionnelle, sans interruption d'activité",
+      "founded": "Création du cabinet, sous l'enseigne CMG",
+      "adoc": "Structuration sous la marque ADOC SA"
+    },
+    "cta": "Le Cabinet & notre historique"
+  },
   "whyUs": {
     "badge": "L'avantage ADOC",
     "title": "Pourquoi choisir notre cabinet pour vos enjeux stratégiques ?",
@@ -104,13 +115,25 @@
     "expertiseLabel": "Domaines d'expertise",
     "closeHint": "Astuce : Sortez la souris de la fenêtre pour fermer.",
     "close": "Fermer",
+    "cv": {
+      "profile": "Positionnement",
+      "highlights": "Réalisations",
+      "career": "Parcours professionnel",
+      "education": "Formation",
+      "skills": "Domaines d'intervention",
+      "languages": "Langues",
+      "countries": "Pays d'intervention",
+      "affiliations": "Affiliations",
+      "portfolio": "Voir le portfolio",
+      "openProfile": "Voir le CV résumé"
+    },
     "levels": {
       "associes": {
         "label": "Associés",
         "role": "Expert-Comptable Associé",
         "ibrahima": {
-          "description": "Plus de 15 ans d'expérience en audit et conseil financier",
-          "bio": "Ibrahima accompagne les entreprises sur leurs enjeux de fiabilisation financière, d'audit légal et contractuel, ainsi que sur la structuration des process de contrôle interne.",
+          "description": "{{years}} ans d'expérience en audit, expertise comptable et direction financière",
+          "bio": "Expert-comptable diplômé de l'État français et commissaire aux comptes, Ibrahima dirige ADOC depuis 2009. Son parcours combine {{years}} ans d'audit en cabinet, de direction financière en entreprise et d'audit de la gestion financière de programmes internationaux en Afrique de l'Ouest et du Centre.",
           "expertise": ["Audit légal", "Conseil financier", "Contrôle interne", "Reporting"]
         },
         "alpha": {
@@ -121,10 +144,11 @@
       },
       "stagiaires": {
         "label": "Experts-Comptables Stagiaires",
+      "rowLabel": "Experts-Comptables Stagiaires & Chef de mission",
         "role": "Expert-Comptable Stagiaire",
         "mansour": {
-          "description": "En formation pour l'obtention du titre d'expert-comptable.",
-          "bio": "Mansour participe aux missions d'audit et de conseil sous la supervision des associés.",
+          "description": "Expert-comptable et développeur — 10 ans d'expérience, spécialisé dans la digitalisation des cabinets",
+          "bio": "Double compétence : expert-comptable et développeur. Chez ADOC, Mansour intervient sur les missions d'audit et pilote la digitalisation des processus du cabinet.",
           "expertise": ["Audit", "Comptabilité", "Formation"]
         },
         "moustapha": {
@@ -182,7 +206,19 @@
           "bio": "Ndeye Maguette accompagne les clients sur leurs projets de conseil et d'audit.",
           "expertise": ["Conseil", "Audit", "Reporting"]
         },
-        "mariame": {
+        "kalidou": {
+        "role": "Collaborateur",
+        "description": "Membre de l'équipe audit et conseil",
+        "bio": "Kalidou intervient sur les missions d'audit et d'assistance comptable du cabinet.",
+        "expertise": ["Audit", "Comptabilité"]
+      },
+      "khadijatou": {
+        "role": "Collaboratrice",
+        "description": "Membre de l'équipe audit et conseil",
+        "bio": "Khadijatou intervient sur les missions d'audit et d'assistance comptable du cabinet.",
+        "expertise": ["Audit", "Comptabilité"]
+      },
+    "mariame": {
           "role": "Assistante de Direction",
           "description": "10 ans d'expérience en assistanat de direction",
           "bio": "Mariame assure la coordination administrative et le soutien stratégique de la direction. Forte de 10 ans d'expérience, elle veille au bon fonctionnement quotidien du cabinet et à la qualité de l'accueil des clients.",

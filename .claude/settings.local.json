@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npx vite *)",
+      "Bash(node -e \"const p = require\\('./package.json'\\); const keys = ['@ai-sdk/react','@ai-sdk/openai','ai','framer-motion','motion']; keys.forEach\\(k => console.log\\(k, p.dependencies?.[k] || p.devDependencies?.[k] || 'NOT FOUND'\\)\\)\")",
+      "Bash(npm run *)",
+      "Bash(node -e \"const fs = require\\('fs'\\); const lock = JSON.parse\\(fs.readFileSync\\('./package-lock.json','utf8'\\)\\); const r = lock.packages?.['node_modules/@ai-sdk/react'] || lock.dependencies?.['@ai-sdk/react']; console.log\\('@ai-sdk/react resolved:', r?.version || r\\)\")",
+      "Bash(node -e \"const p = require\\('./package.json'\\); console.log\\(JSON.stringify\\(Object.keys\\(p.dependencies || {}\\).filter\\(k => k.includes\\('ai'\\) || k.includes\\('sdk'\\)\\), null, 2\\)\\)\")",
+      "Bash(node -e \"const r = require\\('@ai-sdk/react'\\); console.log\\('exports:', Object.keys\\(r\\)\\); try { const {useChat} = r; const chat = useChat; console.log\\('useChat props available'\\); } catch\\(e\\) { console.log\\('error:', e.message\\); }\")",
+      "Bash(node -e ' *)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(curl -s http://localhost:5200/)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(git pull *)",
+      "Bash(git stash *)",
+      "Bash(cat vite.config.ts)",
+      "Bash(cat vite.config.js)"
+    ]
+  }
+}

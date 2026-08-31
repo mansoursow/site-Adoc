@@ -86,7 +86,7 @@ const LogoLoop = memo(({ logos, speed = 50, logoHeight = 40, gap = 80 }: any) =>
           <ul key={i} className="logoloop__list" ref={i === 0 ? seqRef : null}>
             {logos.map((logo: any, idx: number) => (
               <li key={idx} className="logoloop__item">
-                <img src={logo.src} alt={logo.alt} className="grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100" />
+                <img src={logo.src} alt={logo.alt} loading="lazy" decoding="async" className="grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100" />
               </li>
             ))}
           </ul>

@@ -39,7 +39,7 @@ export function HeroSection() {
 
   // ⬇️ scroll vers la section suivante
   const goNext = () => {
-    const next = document.querySelector('#WhyUsSection'); // 🔁 change l'id si besoin
+    const next = document.querySelector('#heritage') ?? document.querySelector('#WhyUsSection');
     if (next) {
       next.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
