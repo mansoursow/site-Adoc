@@ -40,7 +40,7 @@ type TeamMember = {
   tVars?: Record<string, string | number>;
 };
 
-const EMAIL = 'contact@adoc.com';
+const EMAIL = 'contact@adoc-consulting.com';
 
 /**
  * Debut de carriere d'Ibrahima Gueye : avril 1992, Croix-Rouge francaise

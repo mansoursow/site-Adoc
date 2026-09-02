@@ -37,7 +37,11 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h4 className="mb-1">{t('contact.address')}</h4>
-                  <p className="text-gray-300">{t('contact.addressValue')}</p>
+                  <address className="not-italic text-gray-300">
+                    {t('contact.addressValue')}
+                    <br />
+                    {t('contact.addressPostal')}
+                  </address>
                 </div>
               </div>
               
@@ -47,7 +51,11 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h4 className="mb-1">{t('contact.phone')}</h4>
-                  <p className="text-gray-300">{t('contact.phoneValue')}</p>
+                  <p className="text-gray-300">
+                    <a href="tel:+221338590949" className="hover:text-white transition-colors">
+                      {t('contact.phoneValue')}
+                    </a>
+                  </p>
                 </div>
               </div>
               
@@ -57,7 +65,14 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h4 className="mb-1">{t('contact.email')}</h4>
-                  <p className="text-gray-300">{t('contact.emailValue')}</p>
+                  <p className="text-gray-300">
+                    <a
+                      href={`mailto:${t('contact.emailValue')}`}
+                      className="hover:text-white transition-colors break-all"
+                    >
+                      {t('contact.emailValue')}
+                    </a>
+                  </p>
                 </div>
               </div>
               

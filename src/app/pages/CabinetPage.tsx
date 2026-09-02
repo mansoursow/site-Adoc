@@ -238,8 +238,6 @@ export function CabinetPage() {
             </p>
           </div>
 
-         
-
           {/* ================= APPROCHE + HISTORIQUE ================= */}
           <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div

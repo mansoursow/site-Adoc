@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import logo from '../../assets/logo.png';
-import { Linkedin, Facebook, Twitter } from 'lucide-react';
+import { Linkedin, Facebook, Twitter, MapPin, Phone, Mail } from 'lucide-react';
 
 export function Footer() {
   const { t } = useTranslation();
@@ -16,6 +16,32 @@ export function Footer() {
           <div>
             <img src={logo} alt={t('footer.logoAlt')} className="h-16 mb-4 brightness-0 invert" />
             <p className="text-gray-300">{t('footer.tagline')}</p>
+
+            <address className="mt-6 not-italic space-y-3 text-sm text-gray-300">
+              <div className="flex items-start gap-3">
+                <MapPin size={18} className="mt-0.5 shrink-0 text-[#3F5F99]" aria-hidden />
+                <span>
+                  {t('footer.addressValue')}
+                  <br />
+                  {t('footer.addressPostal')}
+                </span>
+              </div>
+              <div className="flex items-start gap-3">
+                <Phone size={18} className="mt-0.5 shrink-0 text-[#3F5F99]" aria-hidden />
+                <a href="tel:+221338590949" className="hover:text-white transition-colors">
+                  {t('footer.phoneValue')}
+                </a>
+              </div>
+              <div className="flex items-start gap-3">
+                <Mail size={18} className="mt-0.5 shrink-0 text-[#3F5F99]" aria-hidden />
+                <a
+                  href={`mailto:${t('footer.emailValue')}`}
+                  className="hover:text-white transition-colors break-all"
+                >
+                  {t('footer.emailValue')}
+                </a>
+              </div>
+            </address>
           </div>
           
           <div>
