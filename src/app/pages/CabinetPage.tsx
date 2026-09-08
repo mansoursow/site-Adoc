@@ -6,7 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { PageBackground } from '@/app/components/PageBackground';
 
-// ✅ IMAGES DU CABINET (15)
+// ✅ IMAGES DU CABINET (13)
+import imageDg1 from '@/assets/gallery-cabinet/3K8A9523.jpg';
+import imageDg2 from '@/assets/gallery-cabinet/3K8A9549.jpg';
 import image1 from '@/assets/gallery-cabinet/image1.jpg';
 import image2 from '@/assets/gallery-cabinet/image2.jpg';
 import image3 from '@/assets/gallery-cabinet/image3.jpg';
@@ -51,9 +53,11 @@ export function CabinetPage() {
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const timeline = t('cabinet.timeline', { returnObjects: true }) as { year: string; title: string; desc: string }[];
 
-  // ✅ 15 images (par défaut: contain + position centre)
+  // ✅ 13 images (par défaut: contain + position centre)
   // 👉 Tu peux personnaliser uniquement celles qui posent problème (têtes coupées)
   const cabinetImages: CabinetImage[] = [
+    { src: toSrc(imageDg1), alt: 'Cabinet — Accueil ADOC Audit & Conseil', fit: 'contain', pos: 'center' },
+    { src: toSrc(imageDg2), alt: 'Cabinet — Réunion de travail en salle de conférence', fit: 'contain', pos: 'center' },
     { src: toSrc(image1), alt: 'Cabinet — Image 1', fit: 'contain', pos: 'center' },
     { src: toSrc(image2), alt: 'Cabinet — Image 2', fit: 'contain', pos: 'center' },
     { src: toSrc(image3), alt: 'Cabinet — Image 3', fit: 'contain', pos: 'center' },
