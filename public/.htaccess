@@ -1,8 +1,26 @@
+# ============================================================
+#  SPA React Router — toutes les routes doivent servir index.html
+#  Compatible Apache ET LiteSpeed (Hostinger).
+#  ⚠️ Ne pas remettre le flag [QL] : LiteSpeed ne le reconnaît pas,
+#     il ignore alors la règle -> 404 sur /cabinet, /expertise, etc.
+#  ⚠️ Directives volontairement hors <IfModule> : LiteSpeed n'expose
+#     pas toujours les noms de modules Apache.
+# ============================================================
 Options -MultiViews
+
 RewriteEngine On
+RewriteBase /
+
+# index.html servi tel quel (évite toute boucle de réécriture)
+RewriteRule ^index\.html$ - [L]
+
+# On ne touche pas aux fichiers/dossiers réellement présents (assets, images...)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.html [QL]
+# ...ni à l'API si elle est servie par le même hôte
+RewriteCond %{REQUEST_URI} !^/api/
+# Tout le reste part sur index.html : React Router prend le relais
+RewriteRule . /index.html [L]
 
 # index.html : jamais mis en cache (toujours à jour après un déploiement)
 <Files "index.html">
