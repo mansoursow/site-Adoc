@@ -330,7 +330,7 @@ export const TEAM_CV: Record<string, MemberCv> = {
   },
 
   // ─────────────────────────────────────────── Chef de mission
-  'Massamba Fall': {
+  'Babacar Sedikh Fall': {
     fullName: 'Babacar Sedikh Fall',
     headline: 'Auditeur comptable et financier confirmé · Auditeur senior',
     education: [

@@ -219,16 +219,16 @@
         "bio": "Khadijatou works on the firm's audit and accounting support assignments.",
         "expertise": ["Audit", "Accounting"]
       },
-    "mariame": {
+    "marieme": {
           "role": "Executive Assistant",
           "description": "10 years of experience as executive assistant",
-          "bio": "Mariame handles administrative coordination and strategic support for management. With 10 years of experience, she ensures the smooth daily operation of the firm and the quality of client reception.",
+          "bio": "Marieme handles administrative coordination and strategic support for management. With 10 years of experience, she ensures the smooth daily operation of the firm and the quality of client reception.",
           "expertise": ["Executive assistance", "Organisation", "Coordination", "Administration"]
         },
-        "massamba": {
+        "babacar": {
           "role": "Manager",
           "description": "10 years of experience in management and advisory",
-          "bio": "Massamba leads advisory and audit assignments with 10 years of experience. He brings solid expertise in team management and strategic support for organisations.",
+          "bio": "Babacar Sedikh leads advisory and audit assignments with 10 years of experience. He brings solid expertise in team management and strategic support for organisations.",
           "expertise": ["Management", "Advisory", "Audit", "Strategy"]
         }
       }

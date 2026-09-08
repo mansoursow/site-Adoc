@@ -13,10 +13,10 @@ import photoAlpha from '../../assets/team/alpha.jpg';
 import photoMansour from '../../assets/team/mansour.jpg';
 import photoMoustapha from '../../assets/team/moustapha.jpg';
 import photoDiouck from '../../assets/team/diouck.jpg';
-import photoMassamba from '../../assets/team/fall.jpg';
+import photoBabacar from '../../assets/team/fall.jpg';
 
 // Collaborateurs
-import photoMariame from '../../assets/team/mariam.jpg';
+import photoMarieme from '../../assets/team/mariam.jpg';
 import photoMariama from '../../assets/team/mariama.jpg';
 import photoKine from '../../assets/team/kine.jpg';
 import photoFatousane from '../../assets/team/fatousane.jpg';
@@ -107,12 +107,12 @@ const NIVEAU_3: TeamMember[] = [
     linkedin: '#',
   },
   {
-    name: 'Massamba Fall',
-    roleKey: 'team.levels.equipe.massamba.role',
-    image: photoMassamba,
-    descriptionKey: 'team.levels.equipe.massamba.description',
-    bioKey: 'team.levels.equipe.massamba.bio',
-    expertiseKey: 'team.levels.equipe.massamba.expertise',
+    name: 'Babacar Sedikh Fall',
+    roleKey: 'team.levels.equipe.babacar.role',
+    image: photoBabacar,
+    descriptionKey: 'team.levels.equipe.babacar.description',
+    bioKey: 'team.levels.equipe.babacar.bio',
+    expertiseKey: 'team.levels.equipe.babacar.expertise',
     email: EMAIL,
     linkedin: '#',
   },
@@ -211,12 +211,12 @@ const COLLABORATEURS: TeamMember[] = [
     linkedin: '#',
   },
   {
-    name: 'Mariame Diallo',
-    roleKey: 'team.levels.equipe.mariame.role',
-    image: photoMariame,
-    descriptionKey: 'team.levels.equipe.mariame.description',
-    bioKey: 'team.levels.equipe.mariame.bio',
-    expertiseKey: 'team.levels.equipe.mariame.expertise',
+    name: 'Marieme Kane',
+    roleKey: 'team.levels.equipe.marieme.role',
+    image: photoMarieme,
+    descriptionKey: 'team.levels.equipe.marieme.description',
+    bioKey: 'team.levels.equipe.marieme.bio',
+    expertiseKey: 'team.levels.equipe.marieme.expertise',
     email: EMAIL,
     linkedin: '#',
   },
